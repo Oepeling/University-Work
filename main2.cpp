@@ -1,25 +1,36 @@
 #include <fstream>
-#include "polynomial.h"
-// #include "vector.h"
+#include <iostream>
+#include <algorithm>
 
-std::ifstream cin("test2.in");
-std::ofstream cout("test2.out");
+#include "polynomial.h"
+#include "vector.h"
+#include "polynomial_eval.h"
+
+std::ifstream in("test2.in");
+std::ofstream out("test2.out");
 
 int main(){
 	vector<polynomial<double>> v;
-	int n; cin >> n;
+	int n; in >> n;
 
 	for(int i = 0; i < n; i++){
-		polynomial<double> a; cin >> a;
+		polynomial<double> a; in >> a;
 		v.push_back(a);
 	}
 
-	double root; cin >> root;
+	double root; in >> root;
+
+	std::sort(v.begin(), v.end());
 
 	for(int i = 0; i < n; i++){
-		if (polynomial_eval(v[i], root).is_root())
-			cout << root << " este radacina a polinomului " << v[i] << std::endl;
-		else cout << root << " nu este radacina a polinomului " << v[i] << std::endl;
+		if (polynomial_eval(v[i], root).is_root()){
+			out << root << " este radacina a polinomului " << v[i] << std::endl;
+			// std::cout << "X = " << root << " este radaina a polinomului " << v[i] << std::endl;
+		}
+		else {
+			out << root << " nu este radacina a polinomului " << v[i] << std::endl;
+			// std::cout << "X = " << root << " nu este radaina a polinomului " << v[i] << std::endl;
+		}
 	}
 
 	return 0;

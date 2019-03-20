@@ -1,15 +1,11 @@
+#pragma once
+
 #include <fstream>
 #include <iostream>
 #include <exception>
+#include <sstream>
 
 #include "vector.h"
-// #include "polynomial_eval.h"
-
-// template<class type>
-// type& max(const type& a, const type& b){
-// 	if (a < b) return b;
-// 	else return a;
-// }
 
 const unsigned int& max(const unsigned int& a, const unsigned int& b){
 	if (a > b) return a;
@@ -53,7 +49,7 @@ public:
 		// constants.erase();
 	}
 
-	unsigned int degree() const { return constants.size() - 1; }
+	int degree() const { return (int) constants.size() - 1; }
 	const unsigned int& size() const { return constants.size(); }
 	void clear(){ constants.clear(); }
 	void erase(){ constants.erase(); }
@@ -74,7 +70,6 @@ public:
 	}
 
 	type& operator [] (int pos) const{
-		// std::cout << pos << std::endl; // << (*this) << std::endl;
 		assert(pos < constants.size() && pos >= 0);
 		return constants[pos];
 	}
@@ -153,17 +148,12 @@ public:
 			type x = aux[i] / other[other.degree()];
 			ans[i - other.degree()] = x;
 
-			// std::cout << aux << std::endl << aux.size() << std::endl;
-
 			for(int j = other.degree(); j >= 0; j--)
 				aux[i - (other.degree() - j)] = aux[i - (other.degree() - j)] - x * other[j];
 		}
 
 		while(!ans.constants.empty() && ans.constants.back() == type())
 			ans.constants.pop_back();
-
-		// std::cout << "ans/ pointer: " << ans.constants.v << '\n';
-		// std::cout << "aux/ pointer: " << aux.constants.v << '\n';
 
 		return ans;
 	}
@@ -204,7 +194,6 @@ public:
 		variable_type x_pow = x;
 
 		for(unsigned int i = 0; i < size(); i++){
-			// std::cout << ans << std::endl;
 			if (i == 0) ans = ans + (*this)[i];
 			else {
 				ans = ans + x_pow * (*this)[i];
@@ -240,6 +229,31 @@ public:
 		return false;
 	}
 
+	// std::ostream& print_to_stream(std::ostream& out, bool show) {
+	// 	if (size() == 0){
+	// 		out << "0";
+	// 		return out;
+	// 	}
+		
+	// 	for(unsigned int i = 0; i < size(); i++){
+	// 		out << (*this)[i]; 
+
+	// 		if (show){
+	// 			out << " * X ^ " << i;
+	// 			if (i < degree()) out << " + ";
+	// 		}
+	// 		else out << ' ';
+	// 	}
+
+	// 	return out;
+	// }
+	// 
+	// std::string pretty() {
+	// 	stringstream ss;
+	// 	print_to_stream(ss, true);
+	// 	return ss.getline();
+	// }
+
 	friend class polynomial_eval;
 };
 
@@ -257,61 +271,22 @@ std::istream& operator >> (std::istream& in, polynomial<type>& p){
 
 template<class type>
 std::ostream& operator << (std::ostream& out, const polynomial<type>& p){
-	// out << "! ";
+	// return p.print_to_stream(out, false);
+
 	if (p.size() == 0){
 		out << "0";
-		// out << "@";
 		return out;
 	}
-	
+		
 	for(unsigned int i = 0; i < p.size(); i++){
-		out << p[i]; // << " * X ^ " << i;
-		// if (i < p.degree()) out << " + ";
+		out << p[i]; 
 		out << ' ';
+		// if (out == std::cout){
+		// 	out << " * X ^ " << i;
+		// 	if (i < p.degree()) out << " + ";
+		// }
+		// else out << ' ';
 	}
 
-	// out << "@";
-
-	return out;
-}
-
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-class polynomial_eval{
-private:
-	polynomial<double> P;
-	double X;
-
-public:
-	polynomial_eval(){
-		X = 0;
-	}
-
-	polynomial_eval(const polynomial<double>& a, const double& b){
-		P = a;
-		X = b;
-	}
-
-	polynomial_eval(const polynomial_eval& a){
-		P = a.P;
-		X = a.X;
-	}
-
-	bool is_root(){
-		return (P(X) == 0);
-	}
-
-	friend std::istream& operator >> (std::istream& in, polynomial_eval& p);
-	friend std::ostream& operator << (std::ostream& out, const polynomial_eval p);
-};
-
-std::istream& operator >> (std::istream& in, polynomial_eval& p){
-	in >> p.P >> p.X;
-	return in;
-}
-
-std::ostream& operator << (std::ostream& out, const polynomial_eval p){
-	out << p.P << std::endl << p.X;
 	return out;
 }

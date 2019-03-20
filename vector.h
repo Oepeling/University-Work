@@ -1,3 +1,5 @@
+#pragma once
+
 #include <assert.h>
 #include <fstream>
 #include <iostream>
@@ -123,6 +125,14 @@ public:
 	type& operator [] (unsigned int x) const {
 		assert(x < _size && x >= 0);
 		return v[x];
+	}
+
+	type* begin(){
+		return v;
+	}
+
+	type* end(){
+		return (v + _size);
 	}
 };
 
