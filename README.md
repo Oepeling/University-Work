@@ -1,1 +1,0 @@
-# FMI-LFA-Tema2-REGEX--DFA
