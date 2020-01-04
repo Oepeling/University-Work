@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Random Reminders</title>
+    <!-- css -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+    <!-- font awesome icons -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/bc8077d8d7.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+	<header>
+	    <nav class="menu">
+			<ul class="menu">
+			    <li>
+			        <a href="#home">Home</a>
+			    </li>
+			    <li>
+			        <a href="#overview">Overview</a>
+			    </li>
+			    <li>
+			        <a href="#features">Features</a>
+			    </li>
+			    <li>
+			        <a href="#login">Log in / Register</a>
+			    </li>
+			</ul>
+			<a href="#" id="toggle-btn">REMINDER</a>
+	    </nav>
+	</header>
+
+	<!-- content -->
+
+	<a name="home"></a>
+	<div class="section-hero">
+	    <div class="container">
+			<h1>Random Reminders App</h1>
+			<h2><i class="fas fa-clock"></i>Because you just don't know when to start</h2>
+			<p>Do you ever think "Hm, I should do this some day, but not now"? This app is designed to help you choose that day.</p>
+	    </div>
+	</div>
+
+	<!-- overview section -->
+
+	<a name="overview"></a>
+	<div id="overview" class="section">
+	    <div class="container">
+			<div class="overview-content">
+
+			<div>
+			    <h2>Overview</h2>
+			    <p>Stop waiting for someday to do the things you want before you forget what you want. Set a date or let us set it for you.</p>
+			    <p>If you can't scheduale a simple task like buying a new charger or you can't decide when to go on that trip you always dream about, this is the app for you!</p>
+			    <button type="button">View More</button>
+			</div>
+
+			<div>
+			    <img src="images/overview.jpg" alt="">
+			</div>
+
+			</div>
+	    </div>
+	</div>
+
+	<!-- about section       -->
+
+
+	<div id="about" class="section">
+	    <div class="container">
+			<h2>
+			    <i class="fas fa-clock"></i>reminder
+			</h2>
+			<h3>Go where you want to go.</h3>
+			<p>Go and see the places you want to see before you forget about them. Set a date for traveling or let us set it for you.</p>
+			<img src="images/about.jpg" alt="">
+	    </div>
+	</div>
+
+
+	<!-- features -->
+	<a name="features"></a>
+	<div id="features" class="section">
+	    <div class="container">
+			<div class="features-content">
+			    <div>
+			        <img src="images/features.jpg" alt="">
+			    </div>
+			    <div>
+					<h2>Features</h2>
+					<h4>&#10148; Email Notification</h4>
+					<p>We will automatically send you an email to remaind you of your plans.</p>
+					<h4>&#10148; Full Reminders List In Your Account</h4>
+					<p>You can see a full list of your reminders in your account and (soon) make changes or delete reminders.</p>
+					<h4>&#10148; Pick Random Time Reminders</h4>
+					<p>If you are not sure when you want to be reminded of something, we can randomly pick a date in the next 3 weeks for you.</p>
+			    </div>
+			</div>
+	    </div>
+	</div>
+
+	<!-- login -->
+
+	<a name="login"></a>
+	<div id="login" class="section">
+	    <div class="container">
+	    	<div class="login-content">
+				<div>
+					<h2>Log in</h2>
+					<input type="email" name="user-mail" placeholder="Enter your email" required>
+					<br>
+					<input type="password" name="password" placeholder="Enter your password" required>
+					<br>
+					<button type="button">Log in</button>
+				</div>
+				<div>
+					<h2>Register</h2>
+					<input type="text" name="first-name" placeholder="First Name" required>
+					<br>
+					<input type="text" name="last-name" placeholder="Last Name">
+					<br>
+					<input list="genders" placeholder="Gender">
+					<datalist id="genders">
+						<option value="Male"></option>
+						<option value="Female"></option>
+						<option value="I prefer not to disclose"></option>
+					</datalist>
+					<br>
+					<input type="email" name="user-mail" placeholder="Enter your email" required>
+					<br>
+					<input type="password" name="password" placeholder="Enter password" required>
+					<br>
+					<input type="password" name="confirm-password" placeholder="Confirm password" required>
+					<br>
+					<button type="button">Register</button>
+				</div>
+			</div>
+	    </div>
+	</div>
+
+	<!-- footer -->
+	<footer>
+	    <span>created by Oepeling</span>
+	</footer>
+
+	<script src="js/script.js"></script>
+</body>
+</html>
