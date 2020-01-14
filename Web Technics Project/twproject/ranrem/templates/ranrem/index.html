@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Responsive Website Using HTML & CSS | CODEGRID</title>
+    <title>Random Reminders</title>
     <!-- css -->
-    <link rel="stylesheet" href="css/style.css">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'ranrem/css/style.css' %}">
 
     <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
@@ -17,6 +18,7 @@
     <!-- font awesome icons -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/bc8077d8d7.js" crossorigin="anonymous"></script>
+
 </head>
 
 <body>
@@ -34,10 +36,7 @@
 			        <a href="#features">Features</a>
 			    </li>
 			    <li>
-			        <a href="#myreminders">My Reminders</a>
-			    </li>
-			    <li>
-			    	<a href="#createnew">Create New</a>
+			        <a href="#login">Log in / Register</a>
 			    </li>
 			</ul>
 			<a href="#" id="toggle-btn">REMINDER</a>
@@ -62,15 +61,16 @@
 	    <div class="container">
 			<div class="overview-content">
 
-			<div>
+			<div id="overview-text">
 			    <h2>Overview</h2>
 			    <p>Stop waiting for someday to do the things you want before you forget what you want. Set a date or let us set it for you.</p>
 			    <p>If you can't scheduale a simple task like buying a new charger or you can't decide when to go on that trip you always dream about, this is the app for you!</p>
-			    <button type="button">View More</button>
+			    <button id="show_more" type="button">Show More</button>
+			    <button id="show_less" type="button" style="display: none">Show Less</button>
 			</div>
 
 			<div>
-			    <img src="images/overview.jpg" alt="">
+			    <img src="{% static 'ranrem/images/overview.jpg' %}" alt="">
 			</div>
 
 			</div>
@@ -87,7 +87,7 @@
 			</h2>
 			<h3>Go where you want to go.</h3>
 			<p>Go and see the places you want to see before you forget about them. Set a date for traveling or let us set it for you.</p>
-			<img src="images/about.jpg" alt="">
+			<img src="{% static 'ranrem/images/about.jpg' %}" alt="">
 	    </div>
 	</div>
 
@@ -98,7 +98,7 @@
 	    <div class="container">
 			<div class="features-content">
 			    <div>
-			        <img src="images/features.jpg" alt="">
+			        <img src="{% static 'ranrem/images/features.jpg' %}" alt="">
 			    </div>
 			    <div>
 					<h2>Features</h2>
@@ -113,45 +113,52 @@
 	    </div>
 	</div>
 
-	<!-- my reminders section -->
+	<!-- login -->
 
-	<a name="myreminders"></a>
-	<div id="myreminders" class="section">
-		<div class="container">
-			<div class="myreminders-content">
+	<a name="login"></a>
+	<div id="login" class="section">
+	    <div class="container">
+	    	<div class="login-content">
 				<div>
-					<h2>Random Reminders</h2>
+					<h2>Log in</h2>
+					<form action="{% url 'ranrem:login' %}" method="post">
+						{% csrf_token %}
+						<input type="email" name="email" placeholder="Enter your email" required>
+						<br>
+						<input type="password" name="password" placeholder="Enter your password" required>
+						<br>
+						<input type="submit" value="Log in">
+					</form>
+					{% if error_message %}
+						<in>!!! {{ error_message }} !!!</in>
+					{% endif %}
 				</div>
 				<div>
-					<h2>Scheduled Reminders</h2>
+					<h2>Register</h2>
+					<form action="{% url 'ranrem:register' %}" method="post">
+						{% csrf_token %}
+						<input type="text" name="first-name" placeholder="First Name" required>
+						<br>
+						<input type="text" name="last-name" placeholder="Last Name">
+						<br>
+						<input list="genders" placeholder="Gender">
+						<datalist id="genders">
+							<option value="Male"></option>
+							<option value="Female"></option>
+							<option value="I prefer not to disclose"></option>
+						</datalist>
+						<br>
+						<input type="email" name="email" placeholder="Enter your email" required>
+						<br>
+						<input type="password" name="password" placeholder="Enter password" required>
+						<br>
+						<input type="password" name="confirm-password" placeholder="Confirm password" required>
+						<br>
+						<input type="submit" value="Register">
+					</form>
 				</div>
 			</div>
-		</div>
-	</div>
-
-	<!-- create new -->
-
-	<a name="createnew"></a>
-	<div id="createnew" class="section">
-		<div class="container">
-			<div class="createnew-content">
-				<div>
-					<h2>Create New Reminder</h2>
-					<input type="text" placeholder="Title" required>
-					<br>
-					<input type="test" placeholder="Description">
-					<br>
-					<input type="checkbox" name="random" value="Remind me at a random time">
-					<br>
-					<input type="date" name="When">
-					<br>
-					<button type="button">Create</button>
-				</div>
-				<div>
-					<img src="images/createnew.png" alt="">
-				</div>
-			</div>
-		</div>
+	    </div>
 	</div>
 
 	<!-- footer -->
@@ -159,6 +166,7 @@
 	    <span>created by Oepeling</span>
 	</footer>
 
-	<script src="js/script.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
+	<script src="{% static 'ranrem/js/script.js' %}"></script>
 </body>
 </html>

@@ -51,6 +51,14 @@ p {
 	line-height: 24px;
 }
 
+in {
+	margin: 20px 0;
+	color: #AA0000;
+	font-size: 15px;
+	font-weight: 400;
+	text-transform: capitalize;	
+}
+
 img {
 	margin: 0px 0;
 	width: 100%;
@@ -259,40 +267,6 @@ nav a#toggle-btn {
 	}
 }
 
-/* subscribe section */
-
-#subscribe {
-	background: #343233;
-	padding: 8em 0;
-}
-
-#subscribe h2 {
-    color: #8D8273;
-}
-
-#subscribe input {
-	width: 80%;
-	margin: 2em 0;
-	background: none;
-	border: 1px solid #8D8273;
-	padding: 20px;
-	font-family: Roboto;
-	font-weight: 400;
-	color: rgb(211, 165, 100);
-}
-
-#subscribe input:focus {
-	border: none;
-	outline: none;
-	border: 2px solid #8D8273;
-}
-
-input::placeholder {
-	color: #8D8273;
-	text-transform: uppercase;
-	font-weight: 400;
-}
-
 /* my reminders */
 
 #myreminders {
@@ -341,13 +315,13 @@ input::placeholder {
 
 #createnew input {
 	width: 80%;
-	margin: 2em 0;
+	margin: 1em 0;
 	background: none;
 	border: 1px solid #8D8273;
 	padding: 20px;
 	font-family: Roboto;
 	font-weight: 400;
-	font-size: 700;
+	font-size: 13px;
 	color: rgb(211, 165, 100);
 }
 
@@ -361,20 +335,37 @@ input::placeholder {
 	color: #8D8273;
 	text-transform: capitalize;
 	font-weight: 400;
-	font-size: 700;
+	font-size: 13px;
 }
 
-#createnew [type=date] {
+#createnew input[type=date] {
 	color: #8D8273;
 }
 
-#createnew [type=checkbox]:after {
+#createnew input[type=checkbox] {
+	width: auto;
+	margin: 0 0.5em;
+}
+
+#createnew label {
+	font-family: Roboto;
+	font-weight: 300;
+	font-size: 13px;
 	color: #8D8273;
-	text-transform: none;
-	font-weight: 400;
-	font-size: 700;
-	padding: 20px;
-	content: attr(value);
+}
+
+#createnew input[type=submit] {
+	outline: none;
+	border: none;
+	margin: 18px 0;
+	padding: 20px 40px;
+	background: solid;
+	background-color: #FFD152;
+	font-family: Roboto;
+	color: #282627;
+	letter-spacing: 2px;
+	font-weight: 800;
+	text-transform: uppercase;
 }
 
 /* login */
@@ -401,13 +392,13 @@ input::placeholder {
 
 #login input {
 	width: 80%;
-	margin: 2em 0;
+	margin: 0.8em 0;
 	background: none;
 	border: 1px solid #8D8273;
 	padding: 20px;
 	font-family: Roboto;
 	font-weight: 400;
-	font-size: 700;
+	font-size: 13px;
 	color: rgb(211, 165, 100);
 }
 
@@ -421,7 +412,21 @@ input::placeholder {
 	color: #8D8273;
 	text-transform: none;
 	font-weight: 400;
-	font-size: 700;
+	font-size: 13px;
+}
+
+#login input[type=submit] {
+	outline: none;
+	border: none;
+	margin: 18px 0;
+	padding: 20px 40px;
+	background: solid;
+	background-color: #FFD152;
+	font-family: Roboto;
+	color: #282627;
+	letter-spacing: 2px;
+	font-weight: 800;
+	text-transform: uppercase;
 }
 
 /* footer */
