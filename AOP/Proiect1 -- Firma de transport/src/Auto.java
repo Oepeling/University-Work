@@ -1,6 +1,24 @@
 abstract class BaseVehicle {
+    private static int index = 0;
     private int idCode;
     private String licencePlate;
+
+    BaseVehicle() {
+        idCode = new Integer(index);
+        licencePlate = "";
+        index++;
+    }
+
+    BaseVehicle(String licencePlate) {
+        this.licencePlate = licencePlate;
+        idCode = new Integer(index);
+        index++;
+    }
+
+    @Override
+    public void finalize() {
+        index--;
+    }
 
     public int getIdCode() {
         return idCode;
