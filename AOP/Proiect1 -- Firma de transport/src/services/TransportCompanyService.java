@@ -8,12 +8,25 @@ import data.vehicles.*;
 import data.vehicles.passsenger.*;
 import data.vehicles.cargo.*;
 
+import javax.swing.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.Math.round;
 
 public class TransportCompanyService extends TransportCompany {
+    private static TransportCompanyService instance = null;
+    private DatabaseHandler dbh;
+
+    public static TransportCompanyService getInstance() {
+        if (instance == null) {
+            instance = new TransportCompanyService();
+        }
+        return instance;
+    }
+
     public void addSettlement(String name, String type) {
         addSettlement(name, type, 0);
     }
@@ -144,32 +157,36 @@ public class TransportCompanyService extends TransportCompany {
                            boolean smokingAllowed,
                            boolean animalFriendly) {
         BaseVehicle toAdd;
-        if (type.equals("Bicycle")) {
-            toAdd = new Bicycle(licencePlate, capacity);
-        } else if (type.equals("Car")) {
-            toAdd = new Car(licencePlate, capacity);
-        } else if (type.equals("Truck")) {
-            toAdd = new Truck(licencePlate, capacity);
-        } else {
-            addVehicle(licencePlate, type, round(capacity), smokingAllowed, animalFriendly);
-            return;
+        switch (type) {
+            case "Bicycle":
+                toAdd = new Bicycle(licencePlate, capacity);
+                break;
+            case "Car":
+                toAdd = new Car(licencePlate, capacity);
+                break;
+            case "Truck":
+                toAdd = new Truck(licencePlate, capacity);
+                break;
+            default:
+                addVehicle(licencePlate, type, round(capacity), smokingAllowed, animalFriendly);
+                return;
         }
 
         super.addVehicle(toAdd);
     }
 
-    public void addTransportRoute(List<String> stops) {
+    public int addTransportRoute(List<String> stops) {
         List<BaseSettlement> realStops = new ArrayList<>();
         for (String stop : stops) {
             BaseSettlement currStop = super.findSettlement(stop);
             if (currStop == null) {
                 // Naspa
-                return;
+                return -1;
             }
             realStops.add(currStop);
         }
             
-        super.addRoute(super.findRoute(realStops));
+        return super.addRoute(super.findRoute(realStops));
     }
 
     public void putVehicleOnRoute(String licencePlate, int routeId) {
@@ -194,5 +211,104 @@ public class TransportCompanyService extends TransportCompany {
 
     public List<BaseVehicle> getVehiclesOnRoute(Route route) {
         return super.getVehiclesOnRoute(route);
+    }
+
+    public Map<Route, List<BaseVehicle>> getActiveRoutes() { return super.getActiveRoutes(); }
+
+    public void guiStarter() {
+        MyThread myThread = new MyThread();
+        myThread.start();
+    }
+
+    public void guiHandler(JFrame frame, int action) {
+        frame.dispose();
+        String s = new String();
+
+        if (action == 0) {
+            // log("Back to menu");
+            GUI gui = new GUI();
+            return;
+        } else if (action == 6) {
+            // log("Exit");
+            return;
+        } else if (action == 1) {
+            // log("Show settlements");
+            for (BaseSettlement settlement : this.getSettlements()) {
+                s = s + settlement + "&";
+            }
+        } else if (action == 2) {
+            // log("Show roads");
+            for (BaseRoad road : this.getRoads()) {
+                s = s + road + "&";
+            }
+        } else if (action == 3) {
+            // log("Show routes");
+            for (Route route : this.getRoutes()) {
+                s = s + route + "&";
+            }
+        } else if (action == 4) {
+            // log("Show vehicles");
+            for (BaseVehicle vehicle : this.getVehicles()) {
+                s = s + vehicle + "&";
+            }
+        } else if (action == 5) {
+            // log("Show vehicles on route");
+            for (Map.Entry<Route, List<BaseVehicle>> entry : this.getActiveRoutes().entrySet()) {
+                if (!entry.getValue().isEmpty()) {
+                    s = s + "Route: " + entry.getKey().getId() + "; Vehicles: ";
+                    for (BaseVehicle vehicle : entry.getValue()) {
+                        s = s + vehicle.getLicencePlate() + ", ";
+                    }
+                    s = s.substring(0, s.length() - 2) + "&";
+                }
+            }
+        }
+        GUI2 gui2 = new GUI2(s.split("&"));
+    }
+
+    private void recoverFromBackup() {
+        try {
+            if (dbh.existsTable("settlements")) {
+                dbh.readSettlements(instance);
+            }
+            if (dbh.existsTable("roads")) {
+                dbh.readRoads(instance);
+            }
+            if (dbh.existsTable("vehicles")) {
+                dbh.readVehicles(instance);
+            }
+            if (dbh.existsTable("routes")) {
+                dbh.readRoutes(instance);
+            }
+            if (dbh.existsTable("routes_vehicles")) {
+                dbh.readRouteVehicle(instance);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void makeBackup() {
+        try {
+            dbh.createSettlementsTable(instance);
+            dbh.createRoadsTable(instance);
+            dbh.createVehiclesTable(instance);
+            dbh.createRoutesTable(instance);
+            dbh.createRouteVehicleTable(instance);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void master() {
+//        try {
+//            dbh = new DatabaseHandler();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return;
+//        }
+//        recoverFromBackup();
+        guiStarter();
+//        makeBackup();
     }
 }

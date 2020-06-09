@@ -74,4 +74,14 @@ public abstract class BaseRoad {
     public BaseRoad flip() {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Name: %s; Type: %s; From: %s; To: %s; Length: %d",
+                getName(),
+                getClass().getSimpleName(),
+                getFrom().getName(),
+                getTo().getName(),
+                getLength());
+    }
 }

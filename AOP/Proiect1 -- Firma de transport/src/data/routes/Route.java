@@ -36,4 +36,13 @@ public class Route {
     public List<BaseSettlement> getSettlements() {
         return settlements;
     }
+
+    @Override
+    public String toString() {
+        String s = "ID: " + getId() + "; Stops: ";
+        for (BaseSettlement settlement : getSettlements()) {
+            s = s + settlement.getName() + ", ";
+        }
+        return s.substring(0, s.length() - 2);
+    }
 }

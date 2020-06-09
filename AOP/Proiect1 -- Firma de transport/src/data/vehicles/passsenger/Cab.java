@@ -31,4 +31,14 @@ public class Cab extends PassengerVehicle {
     public void setSmokingAllowed(boolean smokingAllowed) {
         this.smokingAllowed = smokingAllowed;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Licence plate: %s; Passenger Type: %s; Capacity: %d people; Smoking: %s; Animals: %s",
+                getLicencePlate(),
+                getClass().getSimpleName(),
+                Math.round(getCapacity()),
+                (isSmokingAllowed() ? "Allowed" : "Not allowed"),
+                (isAnimalFriendly() ? "Allowed" : "Not allowed"));
+    }
 }

@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHandler {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/pao";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/aop";
     private static final String USER = "root";
-    private static final String PASS = "MyNewPass";
+    private static final String PASS = "root";
     private Statement statement;
 
     public DatabaseHandler() throws SQLException {
-        Connection connection= DriverManager.getConnection(DB_URL, USER, PASS);
+        Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
         statement = connection.createStatement();
     }
 

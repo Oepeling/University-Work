@@ -2,6 +2,8 @@ package data.vehicles.passsenger;
 
 import data.vehicles.*;
 
+import java.lang.Math;
+
 public abstract class PassengerVehicle extends BaseVehicle {
     private int capacity;
 
@@ -17,5 +19,13 @@ public abstract class PassengerVehicle extends BaseVehicle {
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Licence plate: %s; Passenger Type: %s; Capacity: %d people",
+                getLicencePlate(),
+                getClass().getSimpleName(),
+                Math.round(getCapacity()));
     }
 }

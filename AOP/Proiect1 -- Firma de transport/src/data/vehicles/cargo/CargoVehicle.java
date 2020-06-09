@@ -18,4 +18,12 @@ public abstract class CargoVehicle extends BaseVehicle {
     public void setCapacity(float capacityKg) {
         this.capacityKg = capacityKg;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Licence plate: %s; Cargo Type: %s; Capacity: %f kg",
+                getLicencePlate(),
+                getClass().getSimpleName(),
+                getCapacity());
+    }
 }

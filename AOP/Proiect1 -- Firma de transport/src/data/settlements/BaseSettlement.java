@@ -48,4 +48,9 @@ public abstract class BaseSettlement {
     public void setSize(int size) {
         this.size = size;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Name: %s; Type: %s; Population: %d", getName(), getClass().getSimpleName(), getSize());
+    }
 }

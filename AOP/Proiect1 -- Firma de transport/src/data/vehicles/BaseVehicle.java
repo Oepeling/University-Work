@@ -43,4 +43,9 @@ public abstract class BaseVehicle {
     public boolean isSmokingAllowed() { return false; }
 
     public boolean isAnimalFriendly() { return false; }
+
+    @Override
+    public String toString() {
+        return String.format("Licence plate: %s; Type: %s", getLicencePlate(), getClass().getSimpleName());
+    }
 }

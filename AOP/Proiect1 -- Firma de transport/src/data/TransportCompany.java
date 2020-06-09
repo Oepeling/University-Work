@@ -13,6 +13,11 @@ class TransportNetwork {
     private List<BaseSettlement> nodes;
     private Map<BaseSettlement, List<BaseRoad>> edges;
 
+    protected TransportNetwork() {
+        nodes = new ArrayList<>();
+        edges = new HashMap<>();
+    }
+
     protected void addSettlement(BaseSettlement settlement) {
         if (!nodes.contains(settlement)) {
             nodes.add(settlement);
@@ -37,14 +42,19 @@ class TransportNetwork {
         List<BaseSettlement> path_nodes;
         List<BaseRoad> path_edges;
 
-        public void addNode(BaseSettlement node) {
+        protected Path() {
+            path_nodes = new ArrayList<>();
+            path_edges = new ArrayList<>();
+        }
+
+        protected void addNode(BaseSettlement node) {
             path_nodes.add(node);
         }
-        public void addEdge(BaseRoad edge) {
+        protected void addEdge(BaseRoad edge) {
             path_edges.add(edge);
         }
 
-        public void reverse() {
+        protected void reverse() {
             Collections.reverse(path_nodes);
             Collections.reverse(path_edges);
         }
@@ -135,6 +145,14 @@ public class TransportCompany {
     private List<PassengerVehicle> passengerVehicles;
     private Map<Route, List<BaseVehicle>> activeRoutes;
 
+    protected TransportCompany() {
+        network = new TransportNetwork();
+        routes = new ArrayList<>();
+        cargoVehicles = new ArrayList<>();
+        passengerVehicles = new ArrayList<>();
+        activeRoutes = new HashMap<>();
+    }
+
     public void addSettlement(BaseSettlement settlement) {
         network.addSettlement(settlement);
     }
@@ -150,13 +168,15 @@ public class TransportCompany {
         }
     }
 
-    public void addRoute(Route route) {
+    public int addRoute(Route route) {
         if (route != null) {
             if (!routes.contains(route)) {
                 routes.add(route);
                 activeRoutes.put(route, new ArrayList<>());
             }
+            return route.getId();
         }
+        return -1;
     }
 
     public void addVehicle(CargoVehicle vehicle) {
@@ -242,6 +262,8 @@ public class TransportCompany {
     protected List<Route> getRoutes() {
         return routes;
     }
+
+    protected Map<Route, List<BaseVehicle>> getActiveRoutes() { return activeRoutes; }
 
     public List<BaseVehicle> getVehiclesOnRoute(Route route) {
         return activeRoutes.get(route);
