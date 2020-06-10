@@ -77,7 +77,7 @@ public abstract class BaseRoad {
 
     @Override
     public String toString() {
-        return String.format("Name: %s; Type: %s; From: %s; To: %s; Length: %d",
+        return String.format("Name: %s; Type: %s; From: %s; To: %s; Length: %d km",
                 getName(),
                 getClass().getSimpleName(),
                 getFrom().getName(),

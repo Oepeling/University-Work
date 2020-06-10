@@ -113,6 +113,9 @@ public class TransportCompanyService extends TransportCompany {
                            Integer capacity,
                            boolean smokingAllowed,
                            boolean animalFriendly) {
+        if (super.findVehicle(licencePlate) != null) {
+            return;
+        }
         BaseVehicle toAdd;
         switch (type) {
             case "Cab":
@@ -125,7 +128,7 @@ public class TransportCompanyService extends TransportCompany {
                 toAdd = new Bus(licencePlate, capacity);
                 break;
             default:
-                addVehicle(licencePlate, type, capacity);
+                addVehicle(licencePlate, type, (float)capacity);
                 return;
         }
 
@@ -133,6 +136,9 @@ public class TransportCompanyService extends TransportCompany {
     }
 
     public void addVehicle(String licencePlate, String type, Float capacity) {
+        if (super.findVehicle(licencePlate) != null) {
+            return;
+        }
         BaseVehicle toAdd;
         switch (type) {
             case "Bicycle":
@@ -156,6 +162,9 @@ public class TransportCompanyService extends TransportCompany {
                            Float capacity,
                            boolean smokingAllowed,
                            boolean animalFriendly) {
+        if (super.findVehicle(licencePlate) != null) {
+            return;
+        }
         BaseVehicle toAdd;
         switch (type) {
             case "Bicycle":
@@ -290,10 +299,15 @@ public class TransportCompanyService extends TransportCompany {
 
     private void makeBackup() {
         try {
+            dbh.dropTable("settlements");
             dbh.createSettlementsTable(instance);
+            dbh.dropTable("roads");
             dbh.createRoadsTable(instance);
+            dbh.dropTable("vehicles");
             dbh.createVehiclesTable(instance);
+            dbh.dropTable("routes");
             dbh.createRoutesTable(instance);
+            dbh.dropTable("routes_vehicles");
             dbh.createRouteVehicleTable(instance);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -301,14 +315,14 @@ public class TransportCompanyService extends TransportCompany {
     }
 
     public void master() {
-//        try {
-//            dbh = new DatabaseHandler();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            return;
-//        }
-//        recoverFromBackup();
+        try {
+            dbh = new DatabaseHandler();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+        recoverFromBackup();
         guiStarter();
-//        makeBackup();
+        makeBackup();
     }
 }

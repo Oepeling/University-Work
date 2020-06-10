@@ -38,6 +38,20 @@ class TransportNetwork {
         return null;
     }
 
+    public BaseRoad findRoad(BaseRoad road) {
+        for (Map.Entry<BaseSettlement, List<BaseRoad>> entry : edges.entrySet()) {
+            if (road.getFrom() != entry.getKey()) {
+                continue;
+            }
+            for (BaseRoad currRoad : entry.getValue()) {
+                if (road.toString().equals(currRoad.toString())) {
+                    return currRoad;
+                }
+            }
+        }
+        return null;
+    }
+
     private static class Path {
         List<BaseSettlement> path_nodes;
         List<BaseRoad> path_edges;
@@ -154,7 +168,9 @@ public class TransportCompany {
     }
 
     public void addSettlement(BaseSettlement settlement) {
-        network.addSettlement(settlement);
+        if (findSettlement(settlement.getName()) == null) {
+            network.addSettlement(settlement);
+        }
     }
 
     public void addRoad(BaseRoad road) {
@@ -162,9 +178,11 @@ public class TransportCompany {
     }
 
     public void addRoad(BaseRoad road, boolean two_way) {
-        network.addRoad(road);
-        if (two_way) {
-            network.addRoad(road.flip());
+        if (findRoad(road) == null) {
+            network.addRoad(road);
+            if (two_way) {
+                network.addRoad(road.flip());
+            }
         }
     }
 
@@ -180,13 +198,13 @@ public class TransportCompany {
     }
 
     public void addVehicle(CargoVehicle vehicle) {
-        if (!cargoVehicles.contains(vehicle)) {
+        if (findVehicle(vehicle.getLicencePlate()) == null) {
             cargoVehicles.add(vehicle);
         }
     }
 
     public void addVehicle(PassengerVehicle vehicle) {
-        if (!passengerVehicles.contains(vehicle)) {
+        if (findVehicle(vehicle.getLicencePlate()) == null) {
             passengerVehicles.add(vehicle);
         }
     }
@@ -220,6 +238,10 @@ public class TransportCompany {
 
     protected BaseSettlement findSettlement(String name) {
         return network.findSettlement(name);
+    }
+
+    protected BaseRoad findRoad(BaseRoad road) {
+        return network.findRoad(road);
     }
 
     protected BaseVehicle findVehicle(String licencePlate) {

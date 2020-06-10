@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DatabaseHandler {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/aop";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/aop?serverTimezone=UTC";
     private static final String USER = "root";
-    private static final String PASS = "root";
+    private static final String PASS = "MyStrongPass";
     private Statement statement;
 
     public DatabaseHandler() throws SQLException {
@@ -20,9 +20,9 @@ public class DatabaseHandler {
         statement = connection.createStatement();
     }
 
-    public boolean existsTable(String table) throws SQLException {
+    public boolean existsTable(String tableName) throws SQLException {
         String sqlQuery = String.format("select count(*) from information_schema.TABLES  where table_name = '%s';",
-                table);
+                tableName);
         ResultSet resultSet = statement.executeQuery(sqlQuery);
         resultSet.next();
         int size = resultSet.getInt(1);
@@ -35,7 +35,7 @@ public class DatabaseHandler {
         statement.execute(sqlQuery);
 
         for (BaseSettlement settlement : settlements) {
-            sqlQuery = String.format("insert into settlements values( '%s', '%d', '%s' );",
+            sqlQuery = String.format("insert into settlements values( '%s', %d, '%s' );",
                     settlement.getName(),
                     settlement.getSize(),
                     settlement.getClass().getSimpleName());
@@ -56,14 +56,14 @@ public class DatabaseHandler {
 
     public void createRoadsTable(TransportCompanyService service) throws SQLException {
         List<BaseRoad> roads = service.getRoads();
-        String sqlQuery = "create table roads (name varchar(20), from varchar(20), to varchar(20), type varchar(20), length int);";
+        String sqlQuery = "create table roads (name varchar(20), `from` varchar(20), `to` varchar(20), type varchar(20), length int);";
         statement.execute(sqlQuery);
 
         for (BaseRoad road : roads) {
-            sqlQuery = String.format("insert into roads values( '%s', '%s', '%s', '%s', '%d' );",
+            sqlQuery = String.format("insert into roads values( '%s', '%s', '%s', '%s', %d );",
                     road.getName(),
-                    road.getFrom(),
-                    road.getTo(),
+                    road.getFrom().getName(),
+                    road.getTo().getName(),
                     road.getClass().getSimpleName(),
                     road.getLength());
             statement.execute(sqlQuery);
@@ -85,11 +85,11 @@ public class DatabaseHandler {
 
     public void createVehiclesTable(TransportCompanyService service) throws SQLException {
         List<BaseVehicle> vehicles = service.getVehicles();
-        String sqlQuery = "create table vehicles (licence_plate varchar(20), type varchar(20), capacity float, boolean smoking_allowed, boolean animal_friendly);";
+        String sqlQuery = "create table vehicles (licence_plate varchar(20), type varchar(20), capacity float, smoking_allowed boolean, animal_friendly boolean);";
         statement.execute(sqlQuery);
 
         for (BaseVehicle vehicle : vehicles) {
-            sqlQuery = String.format("insert into vehicles values( '%s', '%s', '%f', '%b', '%b' );",
+            sqlQuery = String.format("insert into vehicles values( '%s', '%s', %f, %b, %b );",
                     vehicle.getLicencePlate(),
                     vehicle.getClass().getSimpleName(),
                     vehicle.getCapacity(),
@@ -114,18 +114,13 @@ public class DatabaseHandler {
 
     public void createRoutesTable(TransportCompanyService service) throws SQLException {
         List<Route> routes = service.getRoutes();
-        String sqlQuery = "create table routes (route_id int, primary key (route_id));";
-        statement.execute(sqlQuery);
-        sqlQuery = "create table routes_stops (route_id int, position int, name varchar(20))";
+        String sqlQuery = "create table routes (route_id int, position int, name varchar(20))";
         statement.execute(sqlQuery);
 
         for (Route route : routes) {
-            sqlQuery = String.format("insert into routes values( '%d' );",
-                    route.getId());
-            statement.execute(sqlQuery);
             int cnt = 0;
             for (BaseSettlement stop : route.getSettlements()) {
-                sqlQuery = String.format("insert into routes_stops ( '%d', '%d', '%s' );",
+                sqlQuery = String.format("insert into routes values( %d, %d, '%s' );",
                         route.getId(),
                         cnt,
                         stop.getName());
@@ -136,14 +131,14 @@ public class DatabaseHandler {
     }
 
     public void readRoutes(TransportCompanyService service) throws SQLException {
-        String sqlQuery = "select * from routes inner join routes_stop r using route_id order by route_id, r.position;";
+        String sqlQuery = "select * from routes order by route_id, `position`;";
         ResultSet resultSet = statement.executeQuery(sqlQuery);
 
         int lastRoute = 0;
         List<String> stops = new ArrayList<>();
         while (resultSet.next()) {
-            int routeId = resultSet.getInt("route_id");
-            String stopName = resultSet.getString("name");
+            int routeId = resultSet.getInt(1);
+            String stopName = resultSet.getString(3);
 
             if (routeId != lastRoute) {
                 service.addTransportRoute(stops);
@@ -164,7 +159,7 @@ public class DatabaseHandler {
         for (Route route : routes) {
             List<BaseVehicle> vehicles = service.getVehiclesOnRoute(route);
             for (BaseVehicle vehicle : vehicles) {
-                sqlQuery = String.format("insert into routes_stops ( '%d', '%s' );",
+                sqlQuery = String.format("insert into routes_vehicles values( %d, '%s' );",
                         route.getId(),
                         vehicle.getLicencePlate());
                 statement.execute(sqlQuery);
@@ -197,6 +192,17 @@ public class DatabaseHandler {
             statement.execute(sqlQuery);
         } catch (SQLException error) {
             error.printStackTrace();
+        }
+    }
+
+    public void dropTable(String tableName) {
+        try {
+            if (existsTable(tableName)) {
+                String sqlQuery = "drop table " + tableName + ";";
+                statement.execute(sqlQuery);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
