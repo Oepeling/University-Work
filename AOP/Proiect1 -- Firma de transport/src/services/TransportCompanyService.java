@@ -231,7 +231,7 @@ public class TransportCompanyService extends TransportCompany {
 
     public void guiHandler(JFrame frame, int action) {
         frame.dispose();
-        String s = new String();
+        StringBuilder s = new StringBuilder();
 
         if (action == 0) {
             // log("Back to menu");
@@ -243,36 +243,36 @@ public class TransportCompanyService extends TransportCompany {
         } else if (action == 1) {
             // log("Show settlements");
             for (BaseSettlement settlement : this.getSettlements()) {
-                s = s + settlement + "&";
+                s.append(settlement).append("&");
             }
         } else if (action == 2) {
             // log("Show roads");
             for (BaseRoad road : this.getRoads()) {
-                s = s + road + "&";
+                s.append(road).append("&");
             }
         } else if (action == 3) {
             // log("Show routes");
             for (Route route : this.getRoutes()) {
-                s = s + route + "&";
+                s.append(route).append("&");
             }
         } else if (action == 4) {
             // log("Show vehicles");
             for (BaseVehicle vehicle : this.getVehicles()) {
-                s = s + vehicle + "&";
+                s.append(vehicle).append("&");
             }
         } else if (action == 5) {
             // log("Show vehicles on route");
             for (Map.Entry<Route, List<BaseVehicle>> entry : this.getActiveRoutes().entrySet()) {
                 if (!entry.getValue().isEmpty()) {
-                    s = s + "Route: " + entry.getKey().getId() + "; Vehicles: ";
+                    s.append("Route: ").append(entry.getKey().getId()).append("; Vehicles: ");
                     for (BaseVehicle vehicle : entry.getValue()) {
-                        s = s + vehicle.getLicencePlate() + ", ";
+                        s.append(vehicle.getLicencePlate()).append(", ");
                     }
-                    s = s.substring(0, s.length() - 2) + "&";
+                    s = new StringBuilder(s.substring(0, s.length() - 2) + "&");
                 }
             }
         }
-        GUI2 gui2 = new GUI2(s.split("&"));
+        GUI2 gui2 = new GUI2(s.toString().split("&"));
     }
 
     private void recoverFromBackup() {

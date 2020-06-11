@@ -12,9 +12,14 @@ public class GUI2 extends JFrame implements ActionListener {
         tcs = TransportCompanyService.getInstance();
         setLayout(new BorderLayout());
         JButton button = new JButton("Back to menu");
+        button.setOpaque(true);
+        button.setBackground(Color.gray);
+        button.setForeground(Color.darkGray);
         JScrollPane jScrollPane = new JScrollPane();
         button.addActionListener(this);
-        JList list = new JList(s);
+        JList<String> list = new JList<>(s);
+        list.setForeground(Color.darkGray);
+        list.setSelectionBackground(Color.orange);
         jScrollPane.setViewportView(list);
         add(jScrollPane, BorderLayout.CENTER);
         add(button, BorderLayout.SOUTH);
