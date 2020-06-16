@@ -19,6 +19,15 @@ import static java.lang.Math.round;
 public class TransportCompanyService extends TransportCompany {
     private static TransportCompanyService instance = null;
     private DatabaseHandler dbh;
+    private Audit audit = Audit.getInstance();
+
+    public TransportCompanyService() {
+        try {
+            dbh = new DatabaseHandler();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static TransportCompanyService getInstance() {
         if (instance == null) {
@@ -50,6 +59,7 @@ public class TransportCompanyService extends TransportCompany {
                 return;
         }
         super.addSettlement(toAdd);
+        audit.write("Add,settlement," + toAdd.toString());
     }
 
     public void addRoad(String name, String from, String to, String type) {
@@ -93,6 +103,7 @@ public class TransportCompanyService extends TransportCompany {
         }
 
         super.addRoad(toAdd, two_way);
+        audit.write("Add,road," + toAdd.toString());
     }
 
     public void addVehicle(String licencePlate,
@@ -133,6 +144,7 @@ public class TransportCompanyService extends TransportCompany {
         }
 
         super.addVehicle(toAdd);
+        audit.write("Add,vehicle," + toAdd.toString());
     }
 
     public void addVehicle(String licencePlate, String type, Float capacity) {
@@ -155,6 +167,7 @@ public class TransportCompanyService extends TransportCompany {
         }
 
         super.addVehicle(toAdd);
+        audit.write("Add,vehicle," + toAdd.toString());
     }
 
     public void addVehicle(String licencePlate,
@@ -182,6 +195,7 @@ public class TransportCompanyService extends TransportCompany {
         }
 
         super.addVehicle(toAdd);
+        audit.write("Add,vehicle," + toAdd.toString());
     }
 
     public int addTransportRoute(List<String> stops) {
@@ -194,7 +208,13 @@ public class TransportCompanyService extends TransportCompany {
             }
             realStops.add(currStop);
         }
-            
+
+        String s = "Add,route,";
+        for (String stop : stops) {
+            s = s + stop + ';';
+        }
+        s = s.substring(0, s.length() - 1);
+        audit.write(s);
         return super.addRoute(super.findRoute(realStops));
     }
 
@@ -315,12 +335,6 @@ public class TransportCompanyService extends TransportCompany {
     }
 
     public void master() {
-        try {
-            dbh = new DatabaseHandler();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return;
-        }
         recoverFromBackup();
         guiStarter();
         makeBackup();

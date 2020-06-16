@@ -43,6 +43,14 @@ public class DatabaseHandler {
         }
     }
 
+    public void addSettlement(BaseSettlement settlement) throws SQLException {
+        String sqlQuery = String.format("insert into settlements values( '%s', %d, '%s' );",
+                settlement.getName(),
+                settlement.getSize(),
+                settlement.getClass().getSimpleName());
+        statement.execute(sqlQuery);
+    }
+
     public void readSettlements(TransportCompanyService service) throws SQLException {
         String sqlQuery = "select * from settlements;";
         ResultSet resultSet = statement.executeQuery(sqlQuery);
@@ -134,6 +142,7 @@ public class DatabaseHandler {
         String sqlQuery = "select * from routes order by route_id, `position`;";
         ResultSet resultSet = statement.executeQuery(sqlQuery);
 
+        int routeMemoryId;
         int lastRoute = 0;
         List<String> stops = new ArrayList<>();
         while (resultSet.next()) {
@@ -141,14 +150,14 @@ public class DatabaseHandler {
             String stopName = resultSet.getString(3);
 
             if (routeId != lastRoute) {
-                service.addTransportRoute(stops);
+                routeMemoryId = service.addTransportRoute(stops);
                 stops.clear();
             }
 
             stops.add(stopName);
         }
 
-        service.addTransportRoute(stops);
+        routeMemoryId = service.addTransportRoute(stops);
     }
 
     public void createRouteVehicleTable(TransportCompanyService service) throws SQLException {

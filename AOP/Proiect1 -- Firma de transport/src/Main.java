@@ -1,11 +1,11 @@
 import services.TransportCompanyService;
 
-//import java.util.*;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
         TransportCompanyService tcs = TransportCompanyService.getInstance();
-//
+
 //        tcs.addSettlement("Bucuresti", "City", 3000000);
 //        tcs.addSettlement("Cluj-Napoca", "City", 1000000);
 //        tcs.addSettlement("Otopeni", "Town", 10000);
@@ -22,6 +22,8 @@ public class Main {
 //
 //        tcs.putVehicleOnRoute("B-45-AOP", routeId);
 //        tcs.addVehicle("IF-46-AOP", "Truck", 3);
+
+//        tcs.addVehicle("B-26_PAO", "Cab", 3);
 
         tcs.master();
     }
