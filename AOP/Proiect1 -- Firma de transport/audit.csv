@@ -1,0 +1,11 @@
+Add,settlement,Name: Bucuresti; Type: City; Population: 3000000,2020-16-06 17:56:56,main
+Add,settlement,Name: Cluj-Napoca; Type: City; Population: 1000000,2020-16-06 17:56:57,main
+Add,settlement,Name: Otopeni; Type: Town; Population: 10000,2020-16-06 17:56:57,main
+Add,road,Name: A4; Type: NationalHighway; From: Bucuresti; To: Cluj-Napoca; Length: 450 km,2020-16-06 17:56:57,main
+Add,road,Name: ; Type: DistrictRoad; From: Bucuresti; To: Otopeni; Length: 20 km,2020-16-06 17:56:57,main
+Add,road,Name: ; Type: DistrictRoad; From: Otopeni; To: Bucuresti; Length: 20 km,2020-16-06 17:56:57,main
+Add,road,Name: A4; Type: NationalHighway; From: Cluj-Napoca; To: Bucuresti; Length: 450 km,2020-16-06 17:56:57,main
+Add,vehicle,Licence plate: B-45-AOP; Passenger Type: Cab; Capacity: 3 people; Smoking: Not allowed; Animals: Not allowed,2020-16-06 17:56:57,main
+Add,vehicle,Licence plate: IF-25-PAO; Passenger Type: Cab; Capacity: 3 people; Smoking: Not allowed; Animals: Not allowed,2020-16-06 17:56:57,main
+Add,vehicle,Licence plate: IF-46-AOP; Cargo Type: Truck; Capacity: 3.000000 kg,2020-16-06 17:56:57,main
+Add,route,Cluj-Napoca;Bucuresti;Otopeni,2020-16-06 17:56:57,main
