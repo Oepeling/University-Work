@@ -2,9 +2,29 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class BasicNote(models.Model):
-    user = models.ForeignKey(
+class Account(models.Model):
+    user = models.OneToOneField(
         User,
+        primary_key=True,
+        on_delete=models.CASCADE
+    )
+
+    @property
+    def username(self):
+        return self.user.username
+
+    @property
+    def full_name(self):
+        return self.user.first_name + ' ' + self.user.last_name
+
+    @property
+    def email(self):
+        return self.user.email
+
+
+class BasicNote(models.Model):
+    account = models.ForeignKey(
+        Account,
         on_delete=models.CASCADE
     )
     title = models.CharField(
