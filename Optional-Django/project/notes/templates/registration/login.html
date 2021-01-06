@@ -67,7 +67,7 @@
                         <br>
                         <input type="submit" value="Log in">
                         <br>
-                        <input type="hidden" name="next" value="{{ next }}">
+                        <input type="hidden" name="next" value="{% url 'notes:home_page' %}">
                     </form>
 
                     {# Assumes you setup the password_reset view in your URLconf #}
