@@ -1,8 +1,11 @@
 import django.views.generic as generic
 import django.contrib.auth.mixins as mixins
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
-from .models import ToDoList, Note, Account
+from django.urls import reverse_lazy
+from .models import ToDoList, Note, Account, ToDoItem
+from .forms import TodoItemForm
 from django.contrib.auth.models import User
 # from .forms import UserCreationForm
 
@@ -22,6 +25,47 @@ class ToDoListIndexView(mixins.LoginRequiredMixin, generic.ListView):
 class ToDoListView(mixins.LoginRequiredMixin, generic.DetailView):
     model = ToDoList
     template_name = 'notes/todo-list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ToDoListView, self).get_context_data(**kwargs)
+        context['form'] = TodoItemForm
+        return context
+
+
+@login_required
+def todo_item_add(request, pk):
+    if request.POST:
+        form = TodoItemForm(request.POST)
+        if form.is_valid():
+            todo_list = ToDoList.objects.get(id=pk)
+            ToDoItem.objects.create(
+                list=todo_list,
+                **form.cleaned_data
+            )
+            todo_list.count += 1
+            todo_list.save()
+            return redirect(reverse_lazy('notes:todo_list', kwargs={"pk": pk}))
+
+
+@login_required
+def todo_item_edit(request, list_pk, item_pk):
+    if request.POST:
+        form = TodoItemForm(request.POST)
+        if form.is_valid():
+            item = ToDoItem.objects.get(pk=item_pk)
+            item.item = form.cleaned_data['item']
+            item.save()
+            return redirect(reverse_lazy('notes:todo_list', kwargs={"pk": list_pk}))
+
+
+@login_required
+def todo_item_delete(request, list_pk, item_pk):
+    item = ToDoItem.objects.get(pk=item_pk)
+    item.delete()
+    todo_list = ToDoList.objects.get(pk=list_pk)
+    todo_list.count -= 1
+    todo_list.save()
+    return redirect(reverse_lazy('notes:todo_list', kwargs={"pk": list_pk}))
 
 
 class NoteIndexView(mixins.LoginRequiredMixin, generic.ListView):

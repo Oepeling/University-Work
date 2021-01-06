@@ -1,5 +1,13 @@
 from django import forms
+from . import models
 from django.contrib.auth.models import User
+
+
+class TodoItemForm(forms.ModelForm):
+    class Meta:
+        model = models.ToDoItem
+        fields = ['item']
+        exclude = ['list', 'checked']
 
 
 class UserCreationForm(forms.ModelForm):
