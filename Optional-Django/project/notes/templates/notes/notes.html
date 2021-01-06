@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Random Reminders</title>
+    <!-- css -->
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'notes/css/style.css' %}">
+
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+
+    <!-- jquery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+
+    <!-- font awesome icons -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/bc8077d8d7.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+	<header>
+	    <nav class="menu">
+			<ul class="menu">
+			    <li>
+			        <a href="{% url 'notes:home_page' %}">Home</a>
+			    </li>
+			    <li>
+			        <a href="{% url 'notes:todo_lists' %}">ToDo Lists</a>
+			    </li>
+                <li>
+                    <a href="{% url 'notes:notes' %}">Notes</a>
+                </li>
+			</ul>
+			<a href="#" id="toggle-btn">REMINDER</a>
+	    </nav>
+	</header>
+
+
+	<a name="notes"></a>
+	<div id="notes" class="section">
+	    <div class="container">
+			<div class="notes-content">
+			    <div>
+                    <h2 style="color: #FFD152">Notes</h2>
+                    {% if notes %}
+                        {% for note in notes %}
+                                <h4>&#10148; {{ note.title }}</h4>
+                                <p>{{ note.description }}</p>
+                        {% endfor %}
+                    {% endif %}
+			    </div>
+                <div>
+			        <img src="{% static 'notes/images/overview.jpg' %}" alt="">
+			    </div>
+			</div>
+	    </div>
+	</div>
+
+	<!-- footer -->
+	<footer>
+	    <span>created by Oepeling</span>
+	</footer>
+
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
+	<script src="{% static 'notes/js/script.js' %}"></script>
+</body>
+</html>
