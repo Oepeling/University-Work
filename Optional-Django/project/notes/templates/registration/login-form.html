@@ -1,0 +1,28 @@
+ <div class="form">
+    {% if form.errors %}
+        <in>Your username and password didn't match. Please try again.</in>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p>Your account doesn't have access to this page. To proceed,
+            please login with an account that has access.</p>
+        {% else %}
+            <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+
+    <form method="post" action="{% url 'notes:login' %}">
+    {% csrf_token %}
+        <input type="text" name="username" placeholder="Enter your username" required>
+        <br>
+        <input type="password" name="password" placeholder="Enter your password" required>
+        <br>
+        <input type="submit" value="Log in">
+        <br>
+        <input type="hidden" name="next" value="{% url 'notes:home_page' %}">
+    </form>
+
+    {# Assumes you setup the password_reset view in your URLconf #}
+    <p><a href="{% url 'notes:password_reset' %}">Lost password?</a></p>
+</div>

@@ -1,7 +1,16 @@
+:root {
+	--light1:#f7f5f7;
+	--light2:#dce3e5;
+	--dark1:#2c4654;
+	--dark2:#263543;
+	--highlight1:#dab35f;
+	--highlight2:#d1884c;
+}
+
 body {
 	font-family: Roboto;
 	margin: 0;
-	background: #343233;
+	background: var(--light2);
 }
 
 .container {
@@ -9,6 +18,7 @@ body {
 	text-align: center;
 	margin: 0 auto;
 	padding: 0 3rem;
+	background: var(--light2);
 }
 
 @media screen and (max-width: 500px) {
@@ -25,35 +35,39 @@ h1, h2, h3 {
 
 h1 {
 	font-size: 54px;
-	color: #FFD152;
+	color: var(--highlight2);
 }
 
 h2 {
 	font-size: 42px;
-	color: #8D8273;
+	color: var(--highlight1);
 }
 
 h3 {
 	font-size: 28px;
-	color: #8D8273;
+	color: var(--dark1);
 }
 
 h4 {
 	font-size: 20px;
-	color: #8D8273;
+	color: var(--dark2);
 	font-weight: 400;
 	margin-bottom: 0;
 }
 
+a {
+	text-decoration: none;
+}
+
 p {
 	margin: 20px 0;
-	color: #8D8273;
+	color: var(--dark2);
 	line-height: 24px;
 }
 
 p a {
 	margin: 20px 0;
-	color: #8D8273;
+	color: var(--dark1);
 	line-height: 24px;
 }
 
@@ -75,9 +89,9 @@ button {
 	border: none;
 	margin: 18px 0;
 	padding: 20px 40px;
-	background: #FFD152;
+	background: var(--highlight1);
 	font-family: Roboto;
-	color: #282627;
+	color: var(--dark2);
 	letter-spacing: 2px;
 	font-weight: 800;
 	text-transform: uppercase;
@@ -91,8 +105,16 @@ i {
 nav {
 	height: 60px;
 	width: 100%;
-	background-color: #282627;
+	background-color: var(--dark2);
 	position: fixed;
+}
+
+nav .left {
+	float: left;
+}
+
+nav .right {
+	float: right;
 }
 
 nav ul {
@@ -112,12 +134,13 @@ nav a {
 	text-align: center;
 	text-decoration: none;
 	padding: 20px 0;
-	color: #8D8273;
+	color: var(--light2);
 	transition: 1s;
 }
 
 nav a:hover {
-	color: #6C6C6C;
+	/*color: var(--light1);*/
+	background: var(--dark1);
 }
 
 nav a#toggle-btn {
@@ -145,12 +168,13 @@ nav a#toggle-btn {
 		text-align: left;
 		width: 100%;
 		text-indent: 25px;
-		background: #282627;
-		color: #8D8273;
+		background: var(--dark2);
+		color: var(--light2);
 	}
 
 	nav a:hover {
-		color: #6C6C6C;
+		/*color: var(--light1);*/
+		background: var(--dark1);
 	}
 
 	nav a#toggle-btn:after {
@@ -166,8 +190,8 @@ nav a#toggle-btn {
 
 	nav a#toggle-btn {
 		display: block;
-		background: #282627;
-		color: #8D8273;
+		background: var(--dark2);
+		color: var(--light2);
 		width: 100%;
 		position: relative;
 	}
@@ -201,7 +225,7 @@ nav a#toggle-btn {
 }
 
 .section-hero h2 {
-	color: #8D8273;
+	color: var(--dark1);
 }
 
 @media screen and (max-width: 580px) {
@@ -214,34 +238,12 @@ nav a#toggle-btn {
 	}
 }
 
-/* overview */
-
-#overview {
-    background: #282627;
-    padding: 8rem 0;
-}
-
-.overview-content {
-    display: grid;
-	grid-gap: 80px;
-	grid-template-columns: repeat(2, 1fr);
-	text-align: left;
-}
-
-@media screen and (max-width: 580px) {
-	.overview-content {
-	    display: grid;
-	    grid-gap: 20px;
-	    grid-template-columns: repeat(1, 1fr);
-	    text-align: left;
-	}
-}
-
 /* todo lists */
 
 #todo-lists {
-	background: #343233;
+	background: var(--light2);
 	padding: 8em 0;
+	height: 100vh;
 }
 
 .todo-lists-content {
@@ -263,8 +265,9 @@ nav a#toggle-btn {
 /* notes */
 
 #notes {
-	background: #343233;
+	background: var(--light2);
 	padding: 8em 0;
+	height: 100vh;
 }
 
 .notes-content {
@@ -281,6 +284,31 @@ nav a#toggle-btn {
 	    grid-template-columns: repeat(1, 1fr);
 	    text-align: left;
 	}
+}
+
+.list {
+	padding: 0 2rem;
+}
+
+.list-item h4 {
+	color: var(--dark1);
+}
+
+.list-item {
+	background: var(--light1);
+	width: 80%;
+	padding-left: 1rem;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	margin-top: 1rem;
+}
+
+.list-item .title {
+
+}
+
+.list-item .description {
+	padding: 0 2rem;
 }
 
 /* create new */
@@ -364,14 +392,16 @@ nav a#toggle-btn {
 /* login */
 
 #login {
-	background: #343233;
+	background: var(--light2);
 	padding: 8em 0;
+	height: 100vh;
+	width: 80%;
 }
 
 .login-content {
 	display: grid;
 	grid-gap: 80px;
-	grid-template-columns: repeat(2, 1fr);
+	grid-template-columns: repeat(1, 1fr);
 	text-align: left;
 }
 @media screen and (max-width: 580px) {
@@ -386,23 +416,24 @@ nav a#toggle-btn {
 #login input {
 	width: 80%;
 	margin: 0.8em 0;
-	background-color: #343233;
-	border: 1px solid #8D8273;
+	background-color: var(--light2);
+	border: 1px solid var(--dark2);
 	padding: 20px;
 	font-family: Roboto;
 	font-weight: 400;
 	font-size: 13px;
-	color: rgb(211, 165, 100);
+	color: var(--dark2);
 }
 
 #login input:focus {
 	border: none;
 	outline: none;
-	border: 2px solid #8D8273;
+	border: 2px solid var(--dark1);
+	background-color: var(--light2);
 }
 
 #login input::placeholder {
-	color: #8D8273;
+	color: var(--dark1);
 	text-transform: none;
 	font-weight: 400;
 	font-size: 13px;
@@ -413,10 +444,10 @@ nav a#toggle-btn {
 	border: none;
 	margin: 18px 0;
 	padding: 20px 40px;
-	background: solid;
-	background-color: #FFD152;
+	/*background: solid;*/
+	background-color: var(--highlight1);
 	font-family: Roboto;
-	color: #282627;
+	color: var(--dark2);
 	letter-spacing: 2px;
 	font-weight: 800;
 	text-transform: uppercase;
@@ -429,10 +460,10 @@ footer {
 	margin: 0 auto;
 	text-align: center;
 	padding: 1em 0;
-	background: #282627;
+	background: var(--dark1);
 }
 
 footer span {
-	color: #8D8273;
+	color: var(--light2);
 	font-weight: 600;
 }

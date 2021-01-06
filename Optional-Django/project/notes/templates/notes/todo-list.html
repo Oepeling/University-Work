@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <a name="todo-lists"></a>
+	<div id="todo-lists" class="section">
+	    <div class="container">
+            <div class="todo-lists-content">
+            <div class="list-item">
+                <div class="title"><h4>{{ todolist.title }}</h4></div>
+                <div class="description"><p>{{ todolist.description }}</p></div>
+
+                <div class="items">
+                <ul>
+                    {% for item in todolist.todoitem_set.all %}
+                        <li>{{ item.item }}</li>
+                    {% endfor %}
+                </ul>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
