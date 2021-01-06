@@ -5,10 +5,12 @@ from . import views
 
 app_name = 'notes'
 urlpatterns = [
-    path('', views.home_page, name='home_page'),
+    path('', views.HomePageView.as_view(), name='home_page'),
     path('todos/', views.ToDoListIndexView.as_view(), name='todo_lists'),
+    path('todo/<int:pk>/', views.ToDoListView.as_view(), name='todo_list'),
     path('notes/', views.NoteIndexView.as_view(), name='notes'),
-    path('accounts/logout/', auth_views.LogoutView.as_view(next_page='notes:home_page')),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/logout/', auth_views.LogoutView.as_view(next_page='notes:home_page'), name='logout'),
     path('accounts/register/', views.register_user, name='register'),
+    # path('accounts/register/', views.RegisterView.as_view(), name='register'),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
