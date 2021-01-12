@@ -9,9 +9,11 @@ urlpatterns = [
 
     path('todos/', views.ToDoListIndexView.as_view(), name='todo_lists'),
     path('todo/<int:pk>/', views.ToDoListView.as_view(), name='todo_list'),
-    path('todo/<int:pk>/item/add/', views.todo_item_add, name='todo_item_add'),
-    path('todo/<int:list_pk>/item/<int:item_pk>/edit', views.todo_item_edit, name='todo_item_edit'),
-    path('todo/<int:list_pk>/item/<int:item_pk>/delete', views.todo_item_delete, name='todo_item_delete'),
+    path('todo/<int:pk>/edit/', views.ToDoListEditView.as_view(), name='todo_list_edit'),
+
+    path('post/<int:pk>/item/add/', views.TodoItemCreateView.as_view(), name='todo_item_add'),
+    path('todo/<int:pk>/item/<int:pk_item>/edit/', views.TodoItemEditView.as_view(), name='todo_item_edit'),
+    path('todo/<int:pk>/item/<int:pk_item>/delete/', views.TodoItemDeleteView.as_view(), name='todo_item_delete'),
 
     path('notes/', views.NoteIndexView.as_view(), name='notes'),
 

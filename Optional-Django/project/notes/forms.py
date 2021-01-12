@@ -3,6 +3,13 @@ from . import models
 from django.contrib.auth.models import User
 
 
+class ToDoListForm(forms.ModelForm):
+    class Meta:
+        model = models.ToDoList
+        fields = ['title', 'description']
+        exclude = ['account', 'count']
+
+
 class TodoItemForm(forms.ModelForm):
     class Meta:
         model = models.ToDoItem

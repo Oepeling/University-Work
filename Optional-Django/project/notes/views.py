@@ -1,11 +1,10 @@
 import django.views.generic as generic
 import django.contrib.auth.mixins as mixins
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from .models import ToDoList, Note, Account, ToDoItem
-from .forms import TodoItemForm
+from .forms import TodoItemForm, ToDoListForm
 from django.contrib.auth.models import User
 # from .forms import UserCreationForm
 
@@ -24,48 +23,66 @@ class ToDoListIndexView(mixins.LoginRequiredMixin, generic.ListView):
 
 class ToDoListView(mixins.LoginRequiredMixin, generic.DetailView):
     model = ToDoList
-    template_name = 'notes/todo-list.html'
+    template_name = 'notes/todo-list-edit.html'
 
     def get_context_data(self, **kwargs):
         context = super(ToDoListView, self).get_context_data(**kwargs)
-        context['form'] = TodoItemForm
+        context['form1'] = ToDoListForm
+        context['form2'] = TodoItemForm
         return context
 
 
-@login_required
-def todo_item_add(request, pk):
-    if request.POST:
-        form = TodoItemForm(request.POST)
-        if form.is_valid():
-            todo_list = ToDoList.objects.get(id=pk)
-            ToDoItem.objects.create(
-                list=todo_list,
-                **form.cleaned_data
-            )
-            todo_list.count += 1
-            todo_list.save()
-            return redirect(reverse_lazy('notes:todo_list', kwargs={"pk": pk}))
+class ToDoListEditView(mixins.LoginRequiredMixin, generic.UpdateView):
+    model = ToDoList
+    fields = ['title', 'description']
+    pk_url_kwarg = 'pk'
+    template_name = 'notes/todo-list-edit.html'
+
+    def form_valid(self, form):
+        todo = ToDoList.objects.get(pk=self.kwargs['pk'])
+        form = form.cleaned_data
+        todo.title = form['title']
+        todo.description = form['description']
+        todo.save()
+        return redirect(reverse_lazy("notes:todo_list", kwargs={"pk": self.kwargs['pk']}))
 
 
-@login_required
-def todo_item_edit(request, list_pk, item_pk):
-    if request.POST:
-        form = TodoItemForm(request.POST)
-        if form.is_valid():
-            item = ToDoItem.objects.get(pk=item_pk)
-            item.item = form.cleaned_data['item']
-            item.save()
-            return redirect(reverse_lazy('notes:todo_list', kwargs={"pk": list_pk}))
+class TodoItemCreateView(mixins.LoginRequiredMixin, generic.CreateView):
+    model = ToDoItem
+    fields = ['item']
+
+    def form_valid(self, form):
+        todo_list = ToDoList.objects.get(id=self.kwargs['pk'])
+        ToDoItem.objects.create(
+            list=todo_list,
+            **form.cleaned_data
+        )
+        return redirect(reverse_lazy("notes:todo_list", kwargs={"pk": self.kwargs['pk']}))
 
 
-@login_required
-def todo_item_delete(request, list_pk, item_pk):
-    item = ToDoItem.objects.get(pk=item_pk)
-    item.delete()
-    todo_list = ToDoList.objects.get(pk=list_pk)
-    todo_list.count -= 1
-    todo_list.save()
-    return redirect(reverse_lazy('notes:todo_list', kwargs={"pk": list_pk}))
+class TodoItemEditView(mixins.LoginRequiredMixin, generic.UpdateView):
+    model = ToDoItem
+    fields = ['item']
+    pk_url_kwarg = 'pk_item'
+    template_name = 'notes/todo-list-edit.html'
+
+    def form_valid(self, form):
+        item = ToDoItem.objects.get(pk=self.kwargs['pk_item'])
+        item.item = form.cleaned_data['item']
+        item.save()
+        return redirect(reverse_lazy("notes:todo_list", kwargs={"pk": self.kwargs['pk']}))
+
+
+class TodoItemDeleteView(mixins.LoginRequiredMixin, generic.DeleteView):
+    template_name = 'notes/todo-list-edit.html'
+    model = ToDoItem
+    pk_url_kwarg = 'pk_item'
+
+    def get_success_url(self):
+        return reverse("notes:todo_list", kwargs={"pk": self.kwargs['pk']})
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
 
 
 class NoteIndexView(mixins.LoginRequiredMixin, generic.ListView):

@@ -6,21 +6,24 @@
 	<a name="todo-lists"></a>
 	<div id="todo-lists" class="section">
 	    <div class="container">
+        <h2>ToDo Lists</h2>
 			<div class="todo-lists-content">
+{#			    <div>#}
+{#			        <img src="{% static 'notes/images/features.jpg' %}" alt="">#}
+{#			    </div>#}
 			    <div>
-			        <img src="{% static 'notes/images/features.jpg' %}" alt="">
-			    </div>
-			    <div>
-                    <h2>ToDo Lists</h2>
                     <div class="list">
                     {% if todo_lists %}
                         {% for todo in todo_lists %}
-                            <a href="{% url 'notes:todo_list' todo.id %}">
-                            <div class="list-item">
-                                <div class="title"><h4>{{ todo.title }}</h4></div>
-                                <div class="description"><p>{{ todo.description }}</p></div>
-                            </div>
-                            </a>
+{#                            <a href="{% url 'notes:todo_list' todo.id %}">#}
+{#                            <div class="list-item">#}
+{#                                <div class="title"><h4>{{ todo.title }}</h4></div>#}
+{#                                <div class="description"><p>{{ todo.description }}</p></div>#}
+{#                            </div>#}
+{#                            </a>#}
+                            {% with todo as todolist %}
+                                {% include 'notes/todo-card.html' %}
+                            {% endwith %}
                         {% endfor %}
                     {% endif %}
                     </div>
