@@ -16,7 +16,7 @@
         <div class="right">
             <ul class="menu">
                 <li>
-                    <a>Hi, {{ user.username }}</a>
+                    <a href="{% url 'notes:profile' %}">Hi, {{ user.username }}</a>
                 </li>
                 <li>
                     <a href="{% url 'notes:logout' %}">Logout</a>

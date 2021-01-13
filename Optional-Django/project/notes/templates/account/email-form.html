@@ -1,0 +1,18 @@
+<div class="list-item">
+    <form method="post" action="{%  url 'notes:password_change' %}">
+        {% csrf_token %}
+        <label for="emil">Email</label>
+        <br>
+        <input type="password" name="old_password" id="old_password">
+        <br>
+        <label for="new_password1">New Password</label>
+        <br>
+        <input type="password" name="new_password1" id="new_password1">
+        <br>
+        <label for="new_password2">Confirm New Password</label>
+        <br>
+        <input type="password" name="new_password2" id="new_password2">
+        <br>
+        <input type="submit" value="Save">
+    </form>
+</div>

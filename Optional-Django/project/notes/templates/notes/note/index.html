@@ -3,25 +3,25 @@
 {% load static %}
 
 {% block content %}
-	<a name="notes"></a>
 	<div id="notes" class="section">
 	    <div class="container">
+            <h2>Notes</h2>
 			<div class="notes-content">
 			    <div>
-                    <h2>Notes</h2>
                     <div class="list">
                     {% if notes %}
                         {% for note in notes %}
-                            <div class="list-item">
-                                <div class="title"><h4>{{ note.title }}</h4></div>
-                                <div class="description"><p>{{ note.description }}</p></div>
-                            </div>
+                            <a href="{% url 'notes:note' note.id %}">
+                            {% with note as note %}
+                                {% include 'notes/note/index-card.html' %}
+                            {% endwith %}
+                            </a>
                         {% endfor %}
                     {% endif %}
+                    <div>
+                        {% include 'notes/note/create-form.html' %}
                     </div>
-			    </div>
-                <div>
-			        <img src="{% static 'notes/images/overview.jpg' %}" alt="">
+                    </div>
 			    </div>
 			</div>
 	    </div>

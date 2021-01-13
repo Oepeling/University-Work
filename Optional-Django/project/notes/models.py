@@ -62,5 +62,6 @@ class ToDoItem(models.Model):
 
 class Note(BasicNote):
     text = models.TextField(
-        'Text'
+        'Text',
+        blank=True
     )

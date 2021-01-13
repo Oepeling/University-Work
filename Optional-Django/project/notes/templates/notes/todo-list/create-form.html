@@ -1,0 +1,14 @@
+<div class="list-item">
+    <form method="post" action="{%  url 'notes:todo_list_create' %}">
+        {% csrf_token %}
+        <label for="title" >Title</label>
+        <br>
+        <input type="text" name="title" id="title">
+        <br>
+        <label for="description">Description</label>
+        <br>
+        <input type="text" name="description" id="description">
+        <br>
+        <input type="submit" value="Create">
+    </form>
+</div>

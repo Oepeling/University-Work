@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <a name="todo-lists"></a>
+	<div id="todo-lists" class="section">
+	    <div class="container">
+            <div class="todo-lists-content">
+                {% include 'notes/todo-list/edit-form.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

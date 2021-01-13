@@ -1,0 +1,46 @@
+<div class="list-item">
+    <form method="post" action="{%  url 'notes:todo_list_edit' todolist.id %}">
+        {% csrf_token %}
+        <label for="title">Title</label>
+        <br>
+        <input type="text" name="title" value="{{ todolist.title }}">
+        <br>
+        <label for="description">Description</label>
+        <br>
+        <input type="text" name="description" value="{{ todolist.description }}">
+        <br>
+        <input type="submit" value="Save">
+        <a class="delete" href="{% url 'notes:todo_list_delete' todolist.id %}">
+            Delete
+        </a>
+    </form>
+
+    <ul class="list">
+        {% for item in todolist.todoitem_set.all %}
+            <li>
+                <div class="todo-list-item">
+                    <form class="edit-form" method="post" action="{% url 'notes:todo_item_edit' todolist.id item.id %}">
+                        {% csrf_token %}
+                        <div class="todo-list-input">
+                            <input type="text" name="item" value="{{ item.item }}">
+                            <a class="delete-btn" href="{% url 'notes:todo_item_delete' todolist.id item.id %}">
+                                x
+                            </a>
+                        </div>
+                        <input type="submit" value="Save">
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+        <li>
+            <div class="todo-list-item">
+                <form class="edit-form" method="post" action="{% url 'notes:todo_item_add' todolist.id %}">
+                    {% csrf_token %}
+                    <input type="text" name="item">
+                    <input type="submit" value="Add">
+                </form>
+                <a></a>
+            </div>
+        </li>
+    </ul>
+</div>
