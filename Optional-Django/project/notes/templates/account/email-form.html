@@ -1,9 +1,9 @@
 <div class="list-item">
     <form method="post" action="{%  url 'notes:email_change' %}">
         {% csrf_token %}
-        <label for="email">New Email</label>
+        <label for="email">Email</label>
         <br>
-        <input type="email" name="email" id="email">
+        <input type="email" name="email" id="email" value="{{ user.email }}">
         <br>
         <input type="submit" value="Save">
     </form>

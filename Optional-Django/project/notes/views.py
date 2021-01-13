@@ -199,15 +199,17 @@ def register_user(request):
 
     data = request.POST
     try:
-        print(data['username'])
         user = User.objects.get(username=data['username'])
     except User.DoesNotExist:
         if data['password1'] == data['password2']:
-            user = User.objects.create_user(data['username'], data['email'], data['password1'])
-            user.first_name = data['first_name']
-            user.last_name = data['last_name']
+            user = User.objects.create_user(
+                username=data['username'],
+                password=data['password1'],
+                first_name=data['first_name'],
+                last_name=data['last_name'],
+                email=data['email']);
             user.save()
-            account = Account.objects.create(user)
+            account = Account.objects.create(user=user)
             account.save()
             context = {'message': 'User registered successfully!'}
         else:
