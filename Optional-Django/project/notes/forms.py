@@ -3,6 +3,13 @@ from . import models
 from django.contrib.auth.models import User
 
 
+class EmailChangeForm(forms.ModelForm):
+    class Meta:
+        model = models.User
+        fields = ['email']
+        exclude = ['username', 'first_name', 'last_name', 'password']
+
+
 class NoteForm(forms.ModelForm):
     class Meta:
         model = models.Note

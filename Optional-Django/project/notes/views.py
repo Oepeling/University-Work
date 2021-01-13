@@ -1,11 +1,13 @@
 import django.views.generic as generic
 import django.contrib.auth.mixins as mixins
+from django.contrib.auth import authenticate
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 from django.urls import reverse_lazy, reverse
 from .models import ToDoList, Note, Account, ToDoItem
-from .forms import TodoItemForm, ToDoListForm, NoteForm
+from .forms import TodoItemForm, ToDoListForm, NoteForm, EmailChangeForm
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
 
 
 # from .forms import UserCreationForm
@@ -237,3 +239,39 @@ class UserProfileView(mixins.LoginRequiredMixin, generic.DetailView):
 
     def get_object(self):
         return self.request.user
+
+    def get_context_data(self, **kwargs):
+        context = super(UserProfileView, self).get_context_data(**kwargs)
+        context['form1'] = PasswordChangeForm
+        context['form2'] = EmailChangeForm
+        return context
+
+
+class UserEmailChangeView(mixins.LoginRequiredMixin, generic.UpdateView):
+    model = User
+    fields = ['email']
+
+    def get_object(self):
+        return self.request.user
+
+    def form_valid(self, form):
+        user = self.request.user
+        user.email = form.cleaned_data['email']
+        user.save()
+        return redirect(reverse_lazy("notes:profile"))
+
+
+class UserNameChangeView(mixins.LoginRequiredMixin, generic.UpdateView):
+    model = User
+    fields = ['first_name', 'last_name']
+
+    def get_object(self):
+        return self.request.user
+
+    def form_valid(self, form):
+        user = self.request.user
+        form = form.cleaned_data
+        user.first_name = form['first_name']
+        user.last_name = form['last_name']
+        user.save()
+        return redirect(reverse_lazy("notes:profile"))

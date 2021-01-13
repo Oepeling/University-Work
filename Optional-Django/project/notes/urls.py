@@ -28,4 +28,6 @@ urlpatterns = [
     # path('accounts/register/', views.RegisterView.as_view(), name='register'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('profile/', views.UserProfileView.as_view(), name='profile'),
+    path('account/email/edit/', views.UserEmailChangeView.as_view(), name='email_change'),
+    path('account/name/edit/', views.UserNameChangeView.as_view(), name='name_change'),
 ]

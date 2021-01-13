@@ -1,0 +1,14 @@
+<div class="list-item">
+    <form method="post" action="{%  url 'notes:name_change' %}">
+        {% csrf_token %}
+        <label for="first_name">First Name</label>
+        <br>
+        <input type="first_name" name="first_name" id="first_name" value="{{ user.first_name }}">
+        <br>
+        <label for="last_name">Last Name</label>
+        <br>
+        <input type="last_name" name="last_name" id="last_name" value="{{ user.last_name }}">
+        <br>
+        <input type="submit" value="Save">
+    </form>
+</div>
