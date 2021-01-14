@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div id="profile" class="section">
+        <div class="container">
+            <h1>{{ selected_user.username }}' Profile</h1>
+            <div class="profile-content">
+                {% include 'account/password-form.html' %}
+                {% include 'account/email-form.html' %}
+                {% include 'account/name-form.html' %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

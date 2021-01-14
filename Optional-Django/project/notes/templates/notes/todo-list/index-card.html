@@ -1,0 +1,12 @@
+<div class="list-item">
+    <div class="title"><h4>{{ todolist.title }}</h4></div>
+    <div class="description"><p>{{ todolist.description }}</p></div>
+
+    <ul class="list">
+        {% for item in todolist.todoitem_set.all %}
+            <li>
+                <p>{{ item.item }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

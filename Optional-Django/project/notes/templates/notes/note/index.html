@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+	<div id="notes" class="section">
+	    <div class="container">
+            <h2>Notes</h2>
+			<div class="notes-content">
+			    <div>
+                    <div class="list">
+                    {% if notes %}
+                        {% for note in notes %}
+                            <a href="{% url 'notes:note' note.id %}">
+                            {% with note as note %}
+                                {% include 'notes/note/index-card.html' %}
+                            {% endwith %}
+                            </a>
+                        {% endfor %}
+                    {% endif %}
+                    <div>
+                        {% include 'notes/note/create-form.html' %}
+                    </div>
+                    </div>
+			    </div>
+			</div>
+	    </div>
+	</div>
+{% endblock %}

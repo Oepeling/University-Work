@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+	<div id="todo-lists" class="section">
+	    <div class="container">
+        <h2>ToDo Lists</h2>
+			<div class="todo-lists-content">
+			    <div>
+                    <div class="list">
+                        {% if todo_lists %}
+                            {% for todo in todo_lists %}
+                                <a href="{% url 'notes:todo_list' todo.id %}">
+                                {% with todo as todolist %}
+                                    {% include 'notes/todo-list/index-card.html' %}
+                                {% endwith %}
+                                </a>
+                            {% endfor %}
+                        {% endif %}
+                        <div>
+                            {% include 'notes/todo-list/create-form.html' %}
+                        </div>
+                    </div>
+			    </div>
+			</div>
+	    </div>
+	</div>
+{% endblock %}

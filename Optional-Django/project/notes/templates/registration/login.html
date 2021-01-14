@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+	<div id="login" class="section">
+	    <div class="container">
+            <h1>Login</h1>
+			<div class="login-content">
+			    {% include 'registration/login-form.html' %}
+			</div>
+	    </div>
+	</div>
+{% endblock %}

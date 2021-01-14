@@ -1,0 +1,39 @@
+<nav class="menu">
+    <div class="left">
+        <ul class="menu">
+            <li>
+                <a href="{% url 'notes:home_page' %}">Home</a>
+            </li>
+            <li>
+                <a href="{% url 'notes:todo_lists' %}">ToDo Lists</a>
+            </li>
+            <li>
+                <a href="{% url 'notes:notes' %}">Notes</a>
+            </li>
+        </ul>
+    </div>
+    {% if user.is_authenticated %}
+        <div class="right">
+            <ul class="menu">
+                <li>
+                    <a href="{% url 'notes:profile' %}">Hi, {{ user.username }}</a>
+                </li>
+                <li>
+                    <a href="{% url 'notes:logout' %}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    {% else %}
+        <div class="right">
+            <ul class="menu">
+                <li>
+                    <a href="{% url 'notes:login' %}">Login</a>
+                </li>
+                <li>
+                    <a href="{% url 'notes:register' %}">Register</a>
+                </li>
+            </ul>
+        </div>
+    {% endif %}
+    <a href="#" id="toggle-btn">NOTES</a>
+</nav>
