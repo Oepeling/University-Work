@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="CFG"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="CFG">
+				<Option output="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/CFG" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 CFG"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="CFG/fast">
+				<Option output="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/CFG" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 CFG/fast"/>
+					<CompileFile command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j8 -f &quot;/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/CNF/CNF_Converter.cpp">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/CNF/CNF_Converter.h">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/CNF/StringCombinatorics.cpp">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/CNF/StringCombinatorics.h">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/CFG_Engine.cpp">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/CFG_Engine.h">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/GrammarSymbol.cpp">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/GrammarSymbol.h">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/GrammarSymbolGenerator.cpp">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/GrammarSymbolGenerator.h">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/Production.cpp">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/Production.h">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/TerminalsSet.cpp">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/TerminalsSet.h">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/LLParser/LLkParser.cpp">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/LLParser/LLkParser.h">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Utility/ListUtility.h">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Utility/VectorUtility.h">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/main.cpp">
+			<Option target="CFG"/>
+		</Unit>
+		<Unit filename="/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

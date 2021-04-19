@@ -1,0 +1,3 @@
+/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/cmake-build-debug/CMakeFiles/CFG.dir
