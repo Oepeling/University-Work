@@ -4,24 +4,21 @@
 #include "CNF/CNF_Converter.h"
 #include "LLParser/LLkParser.h"
 
-void readGrammar(std::string input_file) {
+LLkParser readGrammar(const std::string& input_file) {
     std::ifstream in(input_file);
 
     int k; in >> k;
-    std::cerr << k;
 
     std::string start_symbol; in >> start_symbol;
-    std::cerr << start_symbol;
-//    CFG_Engine engine { start_symbol };
+    CFG_Engine engine { start_symbol };
 
     int n; in >> n;
     for (int i = 0; i < n; i++) {
         std::string left; in >> left;
         std::string right; in >> right >> right;
-        std::cerr << left << ' ' << right << '\n';
 
         if (right == "$") {
-//            engine.AddEpsilonProduction(left);
+            engine.AddEpsilonProduction(left);
             continue;
         }
 
@@ -29,15 +26,15 @@ void readGrammar(std::string input_file) {
         for (int i = 0; i < right.size(); i++) {
             right_vector.push_back(right.substr(i, 1));
         }
-//        engine.AddProduction(left, right_vector);
+        engine.AddProduction(left, right_vector);
     }
 
     in.close();
 
-//    CNF_Converter converter { engine };
-//    LLkParser parser(k, converter.GetEngine());
+    CNF_Converter converter { engine };
+    LLkParser parser(k, converter.GetEngine());
 
-//    return parser;
+    return parser;
 }
 
 void startTesting(LLkParser& parser) {
@@ -53,15 +50,15 @@ void startTesting(LLkParser& parser) {
 
 int main() {
     try {
-        /*LLkParser parser = */readGrammar("output.txt");
+        LLkParser parser = readGrammar("input.txt");
 
-//        bool is_llk = parser.IsLLk();
-//        if (is_llk) {
-//            std::cout << "Gramatica este LL(k)\n";
-//            startTesting(parser);
-//        } else {
-//            std::cout << "Gramatica nu este LL(k)\n";
-//        }
+        bool is_llk = parser.IsLLk();
+        if (is_llk) {
+            std::cout << "Gramatica este LL(k)\n";
+            startTesting(parser);
+        } else {
+            std::cout << "Gramatica nu este LL(k)\n";
+        }
     }
     catch (SymbolFormatError &err){
         std::cerr << err.what();
