@@ -42,7 +42,11 @@ class CNF_Converter {
 
 public:
 
-    CNF_Converter(CFG_Engine &cfgEngine1) : cfgEngine(cfgEngine1) { Convert(); }
+    CNF_Converter(CFG_Engine &cfgEngine1) : cfgEngine(cfgEngine1) {
+        std::cout << "Original CFG: " << std::endl;
+        std::cout << cfgEngine.ToString() << std::endl;
+        /*Convert();*/
+    }
     CFG_Engine& GetEngine() { return cfgEngine; }
 };
 

@@ -51,13 +51,19 @@ std::string TerminalsSet::ToString() const {
     return ans;
 }
 
+void TerminalsSet::Trim(const int length) {
+    for (auto it : terminalsSet) {
+        it = it.Prefix(length);
+    }
+}
+
 const Terminals Terminals::operator+(const Terminals &other) const {
     Terminals result = (*this);
     VectorMerge(result.terminals, other.terminals);
     return result;
 }
 
-const Terminals Terminals::Prefix(int length) const {
+Terminals Terminals::Prefix(int length) {
     Terminals result = (*this);
     if (length < result.terminals.size()) {
         result.terminals.resize(length);
@@ -97,6 +103,21 @@ bool Terminals::operator==(const Terminals &other) const {
         }
     }
     return true;
+}
+
+const Terminals& Terminals::operator+=(const Terminals& other) {
+    VectorMerge(this->terminals, other.terminals);
+    return (*this);
+}
+
+const Terminals &Terminals::operator+=(const GrammarSymbol& other) {
+    this->terminals.push_back(other);
+    return (*this);
+}
+
+const Terminals& Terminals::operator=(const Terminals &other) {
+    this->terminals = other.terminals;
+    return (*this);
 }
 
 std::ostream& operator << (std::ostream& out, const Terminals& to_print) {

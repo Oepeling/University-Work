@@ -21,15 +21,23 @@ void LLkParser::BuildFo() {
             if (production.IsEpsilonProduction()) {
                 continue;
             } else if (production.Length() == 1) {
-                continue;
+                auto A = Terminals(symbol-> second);
+                auto B = Terminals(production.GetRhsAsVector()[0]);
+                Fo[B] += Fo[A];
             } else {
-                // production.Length() == 2
                 std::vector<GrammarSymbol> aux = production.GetRhsAsVector();
-                auto B = aux[0], C = aux[1], A = symbol->second;
-                Fo[Terminals(B)] += Fi[Terminals(C)];
-                Fo[Terminals(C)] += Fo[Terminals(A)];
-                if (Fi[Terminals(C)].Contains(Terminals())) {
-                    Fo[Terminals(B)] += Fo[Terminals(A)];
+                Terminals C = aux;
+
+                for (auto it : aux) {
+                    C.PopFront();
+                    if (it.IsTerminal()) { continue; }
+                    auto B = Terminals(it);
+                    auto A = Terminals(symbol->second);
+                    Fo[B] += Fi[C];
+                    Fo[C] += Fo[A];
+                    if (Fi[C].Contains(Epsilon)) {
+                        Fo[B] += Fo[A];
+                    }
                 }
             }
         }
@@ -39,7 +47,7 @@ void LLkParser::BuildFo() {
 }
 
 void LLkParser::BuildFi() {
-    Fil[{Terminals(), 0}] = TerminalsSet(Terminals());
+    Fil[{Epsilon, 0}] = TerminalsSet(Epsilon);
     for (const auto& symbol : cfgEngine.symbolMap) {
         if (symbol.second.IsTerminal()) {
             Fil[{Terminals(symbol.second), 1}] = TerminalsSet(Terminals(symbol.second));
@@ -54,24 +62,23 @@ void LLkParser::BuildFi() {
             auto production = it.second;
 
             if (production.IsEpsilonProduction()) {
-                Fil[{Terminals(symbol->second), 0}] += (TerminalsSet(Terminals()));
+                Fil[{Terminals(symbol->second), 0}] += (TerminalsSet(Epsilon));
             } else if (production.Length() == 1) {
                 Fil[{Terminals(symbol->second), 1}] += Fil[{Terminals(*production.GetRhs().front()), 1}];
             } else {
-                // production.Length() == 2
                 std::vector<GrammarSymbol> aux = production.GetRhsAsVector();
-                for (int i = 0; i <= K; i++) {
-                    for (int j = 0; j <= i; j++) {
-//                        if (symbol->first == cfgEngine.startSymbol->Value() && i == 1) {
-//                            std::cerr << "linia 66: " << aux[0] << ' ' << j << ' ' << Fil[{Terminals(aux[0]), j}] << '\n';
-//                            std::cerr << "linia 67: " << aux[1] << ' ' << i - j << ' ' << Fil[{Terminals(aux[1]), i - j}] << '\n';
-//                            std::cerr << "linia 68: " << (Fil[{Terminals(aux[0]), j}] * Fil[{Terminals(aux[1]), i - j}]) << '\n';
-//                        }
-                        Fil[{Terminals(aux), i}] +=
-                                (Fil[{Terminals(aux[0]), j}] * Fil[{Terminals(aux[1]), i - j}]);
+                Terminals left(aux[0]);
+                Terminals right(aux); right.PopFront();
+                while (!right.Empty()) {
+                    for (int i = 0; i <= K; i++) {
+                        for (int j = 0; j <= i; j++) {
+                            Fil[{Terminals(aux), i}] +=
+                                    (Fil[{left, j}] * Fil[{right, i - j}]);
+                        }
+                        Fil[{Terminals(symbol->second), i}] += Fil[{Terminals(aux), i}];
                     }
-                    Fil[{Terminals(symbol->second), i}] += Fil[{Terminals(aux), i}];
-//                    std::cerr << symbol->second << ' ' << i << ' ' << Fil[{Terminals(symbol->second), i}] << '\n';
+                    left += right.Front();
+                    right.PopFront();
                 }
             }
         }
@@ -81,7 +88,6 @@ void LLkParser::BuildFi() {
 
     for (auto it : Fil) {
         Fi[it.first.first] += it.second;
-//        std::cerr << it.first.first << ' ' << it.first.second << ' ' << it.second << '\n';
     }
 }
 
@@ -95,19 +101,18 @@ void LLkParser::BuildTable() {
     for (auto it : cfgEngine.productions) {
         auto production = it.second;
         auto symbol = cfgEngine.symbolMap[it.first];
-//        std::cerr << "Linia 98: " << symbol.Value() << ' ' << '\n';
-//        std::cerr << "Linia 99: " << Fi[Terminals(production.GetRhsAsVector())] << '\n';
-//        std::cerr << "Linia 100: " << Fo[symbol] << '\n';
         TerminalsSet aux = Fi[Terminals(production.GetRhsAsVector())] * Fo[symbol];
-//        std::cerr << aux << '\n';
-//        if (symbol == *cfgEngine.startSymbol) {
-//            std::cerr << "Linia 98: " << symbol.IsTerminal() << ' ' << symbol.Value() << ' ' << '\n';
-//            std::cerr << aux << '\n';
-//        }
+        aux.Trim(K);
         for (const auto& terminals : aux.GetTerminalsSet()) {
             parsingTable[{symbol, terminals}].push_back(production);
         }
     }
+
+//    for (auto it : parsingTable) {
+//        std::cerr << "Symbol: " << it.first.first.Value() << '\n';
+//        std::cerr << "Terminals: " << it.first.second << '\n';
+//        std::cerr << "Production: " << it.second[0] << "\n\n";
+//    }
 }
 
 bool LLkParser::IsLLk() const {
@@ -139,9 +144,6 @@ bool LLkParser::Accepted(const std::string &input) {
 
         auto current_symbol = currentProductions[0];
         if (current_symbol.IsTerminal()) {
-//            std::cerr << "!!!!\n";
-//            std::cerr << current_symbol.Value() << ' ' << currentTerminals.Front().Value() << '\n';
-//            std::cerr << current_symbol.IsTerminal() << ' ' << currentTerminals.Front().IsTerminal() << '\n';
             if (current_symbol == currentTerminals.Front()) {
                 currentProductions.erase(currentProductions.begin());
                 currentTerminals.PopFront();
@@ -150,16 +152,7 @@ bool LLkParser::Accepted(const std::string &input) {
             }
         } else {
             if (parsingTable.find({current_symbol, currentTerminals.Prefix(K)}) == parsingTable.end()) {
-//                std::cerr << "!!!!\n";
-//                std::cerr << current_symbol.IsTerminal() << ' ' << current_symbol.Value() << ' ' << currentTerminals.Prefix((K)) << '\n';
-//                std::cerr << currentTerminals.Prefix((K)).Size() << '\n';
                 parsingTable[{current_symbol, currentTerminals.Prefix(K)}].push_back(Production(current_symbol));
-//                for (auto it : parsingTable) {
-//                    std::cerr << "Symbol: " << it.first.first.Value() << '\n';
-//                    std::cerr << "Terminals: " << it.first.second << '\n';
-//                    std::cerr << "Production: " << it.second[0] << "\n\n";
-//                }
-
                 return false;
             } else {
                 auto current_production = parsingTable[{current_symbol, currentTerminals.Prefix(K)}][0];
