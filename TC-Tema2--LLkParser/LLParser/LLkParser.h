@@ -7,7 +7,7 @@
 #include "../Core/TerminalsSet.h"
 
 class LLkParser {
-    CFG_Engine &cfgEngine;
+    CFG_Engine cfgEngine;
     const int K;
 
     std::map<std::pair<Terminals, int>, TerminalsSet> Fil;
@@ -21,7 +21,7 @@ class LLkParser {
     void Build();
 
 public:
-    LLkParser(const int k, CFG_Engine &cfgEngine1) : K(k), cfgEngine(cfgEngine1) { Build(); };
+    LLkParser(const int k, const CFG_Engine &cfgEngine1) : K(k), cfgEngine(cfgEngine1) { Build(); };
 
     bool Accepted(const std::string& input);
     bool IsLLk() const;

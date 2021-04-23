@@ -204,3 +204,12 @@ void CFG_Engine::RemoveDuplicateProductions() {
         currentIt++;
     }
 }
+
+bool CFG_Engine::IsNullable(const GrammarSymbol &symbol) const {
+    for (auto it : nullableSymbols) {
+        if (*it == symbol) {
+            return true;
+        }
+    }
+    return false;
+}

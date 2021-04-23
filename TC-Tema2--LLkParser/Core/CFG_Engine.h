@@ -66,6 +66,8 @@ public:
     // Any symbol starting with a lowercase is considered a TERMINAL
     const GrammarSymbol & AddProduction(std::string const& lhs, std::vector<std::string> const& rhs);
 
+    bool IsNullable(const GrammarSymbol& symbol) const;
+
     // Establish production between existing symbols
     void AddProduction(const GrammarSymbol &lhs, std::list<const GrammarSymbol*> const& rhs);
 

@@ -57,13 +57,14 @@ void LLkParser::BuildFi() {
     while (true) {
         auto FilCopy = Fil;
 
+        for (auto symbol : cfgEngine.nullableSymbols) {
+            Fil[{Terminals(*symbol), 0}] += (TerminalsSet(Epsilon));
+        }
         for (auto it : cfgEngine.productions) {
             auto symbol = cfgEngine.symbolMap.find(it.first);
             auto production = it.second;
 
-            if (production.IsEpsilonProduction()) {
-                Fil[{Terminals(symbol->second), 0}] += (TerminalsSet(Epsilon));
-            } else if (production.Length() == 1) {
+            if (production.Length() == 1) {
                 Fil[{Terminals(symbol->second), 1}] += Fil[{Terminals(*production.GetRhs().front()), 1}];
             } else {
                 std::vector<GrammarSymbol> aux = production.GetRhsAsVector();
@@ -135,13 +136,6 @@ bool LLkParser::Accepted(const std::string &input) {
     currentProductions.push_back(*cfgEngine.startSymbol);
 
     while (!currentTerminals.Empty() && !currentProductions.empty()) {
-//        std::cerr << "Input: " << currentTerminals << '\n';
-//        std::cerr << "Simboluri: ";
-//        for (auto it : currentProductions) {
-//            std::cerr << it.Value() << ' ';
-//        }
-//        std::cerr << '\n';
-
         auto current_symbol = currentProductions[0];
         if (current_symbol.IsTerminal()) {
             if (current_symbol == currentTerminals.Front()) {
@@ -162,6 +156,16 @@ bool LLkParser::Accepted(const std::string &input) {
                     currentProductions.insert(currentProductions.begin(), aux[i]);
                 }
             }
+        }
+    }
+
+    while (!currentProductions.empty()) {
+        if (currentProductions.front().IsTerminal()) {
+            return false;
+        } else if (!cfgEngine.IsNullable(currentProductions.front())) {
+            return false;
+        } else {
+            currentProductions.erase(currentProductions.begin());
         }
     }
 
