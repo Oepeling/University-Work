@@ -36,7 +36,7 @@ public:
 
     [[nodiscard]] const std::list<const GrammarSymbol*>& GetRhs() const { return rhs; }
 
-    [[nodiscard]] const std::vector<GrammarSymbol>& GetRhsAsVector() const;
+    [[nodiscard]] const std::vector<GrammarSymbol> GetRhsAsVector() const;
 
     [[nodiscard]] std::list<const GrammarSymbol*>& GetRhs_Mutable() { return rhs; }
 
@@ -56,5 +56,6 @@ public:
     bool IsUnitProduction();
 };
 
+std::ostream& operator << (std::ostream& out, const Production& to_print);
 
 #endif //CFG_PRODUCTION_H

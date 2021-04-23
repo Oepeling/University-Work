@@ -13,7 +13,7 @@ class LLkParser {
     std::map<std::pair<Terminals, int>, TerminalsSet> Fil;
     std::map<Terminals, TerminalsSet> Fi;
     std::map<Terminals, TerminalsSet> Fo;
-    std::map<std::pair<GrammarSymbol&, Terminals>, std::vector<Production>> parsingTable;
+    std::map<std::pair<GrammarSymbol, Terminals>, std::vector<Production>> parsingTable;
 
     void BuildFi();
     void BuildFo();
@@ -23,7 +23,7 @@ class LLkParser {
 public:
     LLkParser(const int k, CFG_Engine &cfgEngine1) : K(k), cfgEngine(cfgEngine1) { Build(); };
 
-//    bool ELEFANT(const std::string& input) const;
+    bool Accepted(const std::string& input);
     bool IsLLk() const;
 };
 

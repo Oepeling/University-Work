@@ -4,7 +4,7 @@
 
 #include "CFG_Engine.h"
 
-const GrammarSymbol& CFG_Engine::AddSymbol(const std::string &value) {
+GrammarSymbol& CFG_Engine::AddSymbol(const std::string &value) {
     bool isTerminal;
     if (islower(value[0])) { isTerminal = true; }
     else if (isupper(value[0])) { isTerminal = false; }

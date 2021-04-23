@@ -23,7 +23,7 @@ class CFG_Engine {
 
     std::unordered_set<const GrammarSymbol *> nullableSymbols;
 
-    const GrammarSymbol *startSymbol;
+    GrammarSymbol *startSymbol;
 
     friend class CNF_Converter;
     friend class LLkParser;
@@ -57,7 +57,7 @@ public:
     const GrammarSymbol* GetStartSymbol() const { return startSymbol; }
 
     // Add symbol from string, if symbol exists nothing will happen.
-    const GrammarSymbol & AddSymbol(std::string const& value);
+    GrammarSymbol & AddSymbol(std::string const& value);
 
     // Get all nullable symbols
     // Only symbols directly containing epsilon are considered

@@ -31,7 +31,7 @@ const TerminalsSet& TerminalsSet::operator=(const TerminalsSet &other) {
 const TerminalsSet TerminalsSet::operator*(const TerminalsSet &other) const {
     TerminalsSet result;
     for (auto a : this->terminalsSet) {
-        for (auto b : this->terminalsSet) {
+        for (auto b : other.terminalsSet) {
             result.terminalsSet.insert(a + b);
         }
     }
@@ -41,6 +41,14 @@ const TerminalsSet TerminalsSet::operator*(const TerminalsSet &other) const {
 const TerminalsSet &TerminalsSet::operator+=(const TerminalsSet &other) {
     this->terminalsSet.insert(other.terminalsSet.begin(), other.terminalsSet.end());
     return (*this);
+}
+
+std::string TerminalsSet::ToString() const {
+    std::string ans = "";
+    for (auto it : terminalsSet) {
+        ans += (it.ToString() + "\n");
+    }
+    return ans;
 }
 
 const Terminals Terminals::operator+(const Terminals &other) const {
@@ -70,3 +78,33 @@ bool Terminals::operator<(const Terminals &other) const {
     }
 }
 
+std::string Terminals::ToString() const {
+    std::string ans = "";
+    for (auto it : terminals) {
+        ans += (it.Value() + " ");
+    }
+    ans += std::to_string(terminals.size());
+    return ans;
+}
+
+bool Terminals::operator==(const Terminals &other) const {
+    if (this->terminals.size() != other.terminals.size()) {
+        return false;
+    }
+    for (int i = 0; i < this->terminals.size(); i++) {
+        if (this->terminals[i] != other.terminals[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+std::ostream& operator << (std::ostream& out, const Terminals& to_print) {
+    out << to_print.ToString();
+    return out;
+}
+
+std::ostream& operator << (std::ostream& out, const TerminalsSet& to_print) {
+    out << to_print.ToString();
+    return out;
+}

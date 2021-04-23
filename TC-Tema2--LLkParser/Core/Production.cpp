@@ -84,10 +84,19 @@ std::string Production::ToString_Rhs() const {
     return result;
 }
 
-const std::vector<GrammarSymbol> &Production::GetRhsAsVector() const {
+const std::vector<GrammarSymbol> Production::GetRhsAsVector() const {
     std::vector<GrammarSymbol> result;
     for (auto it : this->rhs) {
         result.push_back(*it);
     }
     return result;
+}
+
+std::ostream& operator << (std::ostream& out, const Production& to_print) {
+    std::string aux = " ";
+    out << to_print.GetLhs().Value() << aux;
+    for (auto it : to_print.GetRhsAsVector()) {
+        out << it.Value() << aux;
+    }
+    return out;
 }

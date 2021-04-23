@@ -11,15 +11,19 @@ class Terminals {
 public:
     const Terminals operator + (const Terminals& other) const;
     bool operator < (const Terminals& other) const;
-    bool operator == (const Terminals& other) const {
-        return !(((*this) < other) || (other < (*this)));
-    }
+    bool operator == (const Terminals& other) const;
     [[nodiscard]] const Terminals Prefix (int length) const;
 
     Terminals(const Terminals& other) : terminals(other.terminals) {}
     Terminals(const std::vector<GrammarSymbol>& content) : terminals(content) {}
     Terminals(const GrammarSymbol& symbol) { this->terminals.push_back(symbol); }
     Terminals() {}
+
+    std::string ToString() const;
+    bool Empty() const { return terminals.empty(); }
+    int Size() const { return terminals.size(); }
+    const GrammarSymbol Front() const { return terminals.front(); }
+    void PopFront() { terminals.erase(terminals.begin()); }
 };
 
 class TerminalsSet {
@@ -39,7 +43,11 @@ public:
     explicit TerminalsSet(const std::set<Terminals>& content) : terminalsSet(content) {}
     TerminalsSet(const Terminals& terminals) { terminalsSet.insert(terminals); }
     TerminalsSet(const TerminalsSet& other) = default;
+
+    std::string ToString() const;
 };
 
+std::ostream& operator << (std::ostream& out, const Terminals& to_print);
+std::ostream& operator << (std::ostream& out, const TerminalsSet& to_print);
 
 #endif //CFG_TERMINALSSET_H

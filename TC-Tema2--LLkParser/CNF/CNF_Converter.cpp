@@ -16,12 +16,6 @@ void CNF_Converter::Convert() {
     std::cout << cfgEngine.ToString() << std::endl;
 #endif
 
-    RemoveUnreachableProductions();
-#ifdef CFG_CNF_CONVERSION_VERBOSE
-    std::cout << "After removing unreachable productions: " << std::endl;
-    std::cout << cfgEngine.ToString() << std::endl;
-#endif
-
     AddNewStartSymbol();
 #ifdef CFG_CNF_CONVERSION_VERBOSE
     std::cout << "Add new start symbol: " << std::endl;
@@ -40,6 +34,12 @@ void CNF_Converter::Convert() {
     std::cout << cfgEngine.ToString() << std::endl;
 #endif
 
+    RemoveUnreachableProductions();
+#ifdef CFG_CNF_CONVERSION_VERBOSE
+    std::cout << "After removing unreachable productions: " << std::endl;
+    std::cout << cfgEngine.ToString() << std::endl;
+#endif
+
     ApplyCNF();
 #ifdef CFG_CNF_CONVERSION_VERBOSE
     std::cout << "After applying CNF rules:" << std::endl;
@@ -53,14 +53,16 @@ void CNF_Converter::AddNewStartSymbol() {
     while (cfgEngine.SymbolExists(newStartSymbolName)){
         newStartSymbolName += "_0";
     }
-    const GrammarSymbol &newStartSymbol = cfgEngine.AddSymbol(newStartSymbolName);
+    GrammarSymbol &newStartSymbol = cfgEngine.AddSymbol(newStartSymbolName);
     cfgEngine.AddProduction(newStartSymbol, {currentStartSymbol});
+    cfgEngine.startSymbol = &newStartSymbol;
 }
 
 void CNF_Converter::RemoveEpsilonProductions() {
     std::vector<const GrammarSymbol *> newEpsilonSymbols;
+    bool startSymbolEpsilonProduction = false;
 
-    while (cfgEngine.IfHasEpsilonProductions()){
+    while (cfgEngine.IfHasEpsilonProductions()) {
         auto nullableProductions = cfgEngine.GetAllDirectlyNullableSymbols();
         for (const auto &pair : cfgEngine.productions){
             auto nullableMap =
@@ -69,38 +71,48 @@ void CNF_Converter::RemoveEpsilonProductions() {
             cfgEngine.AddProductions(stringCombinatorics.GetAllCombinations());
             VectorMerge(newEpsilonSymbols, stringCombinatorics.GetNewEpsilonSymbols());
         }
+
         cfgEngine.RemoveAllEpsilonProductions();
-        for (const GrammarSymbol * symbol : newEpsilonSymbols){
+        for (const GrammarSymbol * symbol : newEpsilonSymbols) {
+            if (symbol == cfgEngine.startSymbol) {
+                startSymbolEpsilonProduction = true;
+                continue;
+            }
             cfgEngine.AddEpsilonProduction(symbol->Value());
         }
         newEpsilonSymbols.clear();
     }
+
+    if (startSymbolEpsilonProduction) {
+        cfgEngine.AddEpsilonProduction(cfgEngine.startSymbol->Value());
+    }
+
     cfgEngine.RemoveGhostProductions();
     cfgEngine.RemoveDuplicateProductions();
 }
 
 void CNF_Converter::RemoveUnitProductions() {
-    std::unordered_multimap<std::string, Production> guf;
+    std::unordered_multimap<std::string, Production> guf = cfgEngine.productions;
 
-    auto it = cfgEngine.productions.begin();
-    while (it != cfgEngine.productions.end()){
-        if (!it->second.IsUnitProduction()){
-            guf.insert(*it);
-        }
-        it++;
-    }
+//    auto it = cfgEngine.productions.begin();
+//    while (it != cfgEngine.productions.end()){
+//        if (!it->second.IsUnitProduction()){
+//            guf.insert(*it);
+//        }
+//        it++;
+//    }
 
     bool changes = true;
-    while (changes){
+    while (changes) {
         changes = false;
-        it = cfgEngine.productions.begin();
+        auto it = cfgEngine.productions.begin();
         while (it != cfgEngine.productions.end()){
-            if (it->second.IsUnitProduction()){
+            if (it->second.IsUnitProduction()) {
                 TransitUnitProduction(it->second, guf);
                 it = cfgEngine.productions.erase(it);
                 changes = true;
             }
-            else{
+            else {
                 it++;
             }
 
