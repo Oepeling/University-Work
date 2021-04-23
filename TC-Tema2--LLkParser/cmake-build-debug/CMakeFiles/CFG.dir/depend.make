@@ -42,6 +42,7 @@ CMakeFiles/CFG.dir/LLParser/LLkParser.cpp.o: ../Core/Production.h
 CMakeFiles/CFG.dir/LLParser/LLkParser.cpp.o: ../Core/TerminalsSet.h
 CMakeFiles/CFG.dir/LLParser/LLkParser.cpp.o: ../LLParser/LLkParser.cpp
 CMakeFiles/CFG.dir/LLParser/LLkParser.cpp.o: ../LLParser/LLkParser.h
+CMakeFiles/CFG.dir/LLParser/LLkParser.cpp.o: ../Utility/VectorUtility.h
 
 CMakeFiles/CFG.dir/main.cpp.o: ../CNF/CNF_Converter.h
 CMakeFiles/CFG.dir/main.cpp.o: ../Core/CFG_Engine.h

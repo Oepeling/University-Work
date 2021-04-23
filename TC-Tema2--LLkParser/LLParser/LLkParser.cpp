@@ -1,5 +1,6 @@
 #include <iostream>
 #include "LLkParser.h"
+#include "../Utility/VectorUtility.h"
 
 void LLkParser::BuildFo() {
     for (auto symbol : cfgEngine.symbolMap) {
@@ -33,11 +34,7 @@ void LLkParser::BuildFo() {
                     if (it.IsTerminal()) { continue; }
                     auto B = Terminals(it);
                     auto A = Terminals(symbol->second);
-                    Fo[B] += Fi[C];
-                    Fo[C] += Fo[A];
-                    if (Fi[C].Contains(Epsilon)) {
-                        Fo[B] += Fo[A];
-                    }
+                    Fo[B] += (Fi[C] * Fo[A]).Trim(K);
                 }
             }
         }
@@ -54,29 +51,66 @@ void LLkParser::BuildFi() {
         }
     }
 
+    for (auto symbol : cfgEngine.nullableSymbols) {
+        Fil[{Terminals(*symbol), 0}] += (TerminalsSet(Epsilon));
+    }
+
+    std::set<Terminals> to_be_computed;
+    for (auto it : cfgEngine.productions) {
+        to_be_computed.insert(Terminals(cfgEngine.symbolMap.find(it.first)->second));
+        auto right = it.second.GetRhsAsVector();
+        for (int i = 0; i < right.size(); i++) {
+            std::vector<GrammarSymbol> aux;
+            for (int j = 0; i + j < right.size(); j++) {
+                aux.push_back(right[i + j]);
+                to_be_computed.insert(Terminals(aux));
+            }
+        }
+    }
+
     while (true) {
         auto FilCopy = Fil;
 
-        for (auto symbol : cfgEngine.nullableSymbols) {
-            Fil[{Terminals(*symbol), 0}] += (TerminalsSet(Epsilon));
-        }
-        for (auto it : cfgEngine.productions) {
-            auto symbol = cfgEngine.symbolMap.find(it.first);
-            auto production = it.second;
-
-            if (production.Length() == 1) {
-                Fil[{Terminals(symbol->second), 1}] += Fil[{Terminals(*production.GetRhs().front()), 1}];
+        for (auto it : to_be_computed) {
+            if (it.Size() == 1) {
+                if (it.Front().IsTerminal()) {
+                    continue;
+                } else {
+                    auto symbol = it.Front();
+                    for (auto production : cfgEngine.GetAllProductionOfLhs(symbol.Value())) {
+                        if (production->Length() == 1) {
+                            if (production->GetRhs().front()->IsTerminal()) {
+                                Fil[{Terminals(symbol), 1}] += Fil[{Terminals(*production->GetRhs().front()), 1}];
+                            } else {
+                                for (int i = 0; i <= K; i++) {
+                                    Fil[{Terminals(symbol), i}] += Fil[{Terminals(*production->GetRhs().front()), i}];
+                                }
+                            }
+                        } else {
+                            std::vector<GrammarSymbol> aux = production->GetRhsAsVector();
+                            for (int i = 0; i <= K; i++) {
+                                Fil[{Terminals(symbol), i}] += Fil[{Terminals(aux), i}];
+                            }
+                        }
+                    }
+                }
             } else {
-                std::vector<GrammarSymbol> aux = production.GetRhsAsVector();
+                std::vector<GrammarSymbol> aux = it.AsVector();
                 Terminals left(aux[0]);
                 Terminals right(aux); right.PopFront();
                 while (!right.Empty()) {
                     for (int i = 0; i <= K; i++) {
                         for (int j = 0; j <= i; j++) {
-                            Fil[{Terminals(aux), i}] +=
-                                    (Fil[{left, j}] * Fil[{right, i - j}]);
+                            if (i == K) {
+                                for (int k = i - j; k <= K; k++) {
+                                    Fil[{Terminals(aux), i}] +=
+                                            (Fil[{left, j}] * Fil[{right, k}]).Trim(K);
+                                }
+                            } else {
+                                Fil[{Terminals(aux), i}] +=
+                                        (Fil[{left, j}] * Fil[{right, i - j}]);
+                            }
                         }
-                        Fil[{Terminals(symbol->second), i}] += Fil[{Terminals(aux), i}];
                     }
                     left += right.Front();
                     right.PopFront();
@@ -88,7 +122,11 @@ void LLkParser::BuildFi() {
     }
 
     for (auto it : Fil) {
+        if (it.first.second > K) { continue; }
         Fi[it.first.first] += it.second;
+//        std::cerr << "Symbol: " << it.first.first << '\n';
+//        std::cerr << "No: " << it.first.second << '\n';
+//        std::cerr << "Terminals: " << it.second << "\n\n";
     }
 }
 
@@ -99,6 +137,12 @@ void LLkParser::Build() {
 }
 
 void LLkParser::BuildTable() {
+    for (auto symbol : cfgEngine.nullableSymbols) {
+        TerminalsSet aux = Fo[*symbol];
+        for (const auto& terminals : aux.GetTerminalsSet()) {
+            parsingTable[{*symbol, terminals}].push_back(Production(*symbol));
+        }
+    }
     for (auto it : cfgEngine.productions) {
         auto production = it.second;
         auto symbol = cfgEngine.symbolMap[it.first];
@@ -109,11 +153,13 @@ void LLkParser::BuildTable() {
         }
     }
 
-//    for (auto it : parsingTable) {
-//        std::cerr << "Symbol: " << it.first.first.Value() << '\n';
-//        std::cerr << "Terminals: " << it.first.second << '\n';
-//        std::cerr << "Production: " << it.second[0] << "\n\n";
-//    }
+//    std::cerr << "Follow A: " << Fo[*cfgEngine.FindSymbol("A")] << std::endl;
+
+    for (auto it : parsingTable) {
+        std::cerr << "Symbol: " << it.first.first.Value() << '\n';
+        std::cerr << "Terminals: " << it.first.second << '\n';
+        std::cerr << "Production: " << it.second[0] << "\n\n";
+    }
 }
 
 bool LLkParser::IsLLk() const {
@@ -146,7 +192,6 @@ bool LLkParser::Accepted(const std::string &input) {
             }
         } else {
             if (parsingTable.find({current_symbol, currentTerminals.Prefix(K)}) == parsingTable.end()) {
-                parsingTable[{current_symbol, currentTerminals.Prefix(K)}].push_back(Production(current_symbol));
                 return false;
             } else {
                 auto current_production = parsingTable[{current_symbol, currentTerminals.Prefix(K)}][0];

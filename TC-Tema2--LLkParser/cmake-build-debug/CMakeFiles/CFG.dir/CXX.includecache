@@ -6,18 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/CNF/CNF_Converter.cpp
-iostream
--
-set
--
-CNF_Converter.h
-/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/CNF/CNF_Converter.h
-StringCombinatorics.h
-/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/CNF/StringCombinatorics.h
-../Utility/VectorUtility.h
-/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Utility/VectorUtility.h
-
 /Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/CNF/CNF_Converter.h
 unordered_map
 -
@@ -29,16 +17,6 @@ set
 /Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/GrammarSymbolGenerator.h
 ../Utility/ListUtility.h
 /Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Utility/ListUtility.h
-
-/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/CNF/StringCombinatorics.h
-vector
--
-../Core/Production.h
-/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/Production.h
-
-/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/CFG_Engine.cpp
-CFG_Engine.h
-/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/CFG_Engine.h
 
 /Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/CFG_Engine.h
 unordered_map
@@ -74,6 +52,12 @@ unordered_set
 GrammarSymbol.h
 /Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/GrammarSymbol.h
 
+/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/TerminalsSet.cpp
+TerminalsSet.h
+/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/TerminalsSet.h
+../Utility/VectorUtility.h
+/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Utility/VectorUtility.h
+
 /Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/TerminalsSet.h
 vector
 -
@@ -87,6 +71,8 @@ iostream
 -
 LLkParser.h
 /Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/LLParser/LLkParser.h
+../Utility/VectorUtility.h
+/Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Utility/VectorUtility.h
 
 /Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/LLParser/LLkParser.h
 map

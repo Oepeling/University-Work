@@ -28,7 +28,7 @@ const TerminalsSet& TerminalsSet::operator=(const TerminalsSet &other) {
     return other;
 }
 
-const TerminalsSet TerminalsSet::operator*(const TerminalsSet &other) const {
+TerminalsSet TerminalsSet::operator*(const TerminalsSet &other) const {
     TerminalsSet result;
     for (auto a : this->terminalsSet) {
         for (auto b : other.terminalsSet) {
@@ -51,10 +51,13 @@ std::string TerminalsSet::ToString() const {
     return ans;
 }
 
-void TerminalsSet::Trim(const int length) {
+const TerminalsSet TerminalsSet::Trim(const int length) {
+    std::set<Terminals> newTerminalsSet;
     for (auto it : terminalsSet) {
-        it = it.Prefix(length);
+        newTerminalsSet.insert(it.Prefix(length));
     }
+    terminalsSet = newTerminalsSet;
+    return (*this);
 }
 
 const Terminals Terminals::operator+(const Terminals &other) const {
@@ -118,6 +121,12 @@ const Terminals &Terminals::operator+=(const GrammarSymbol& other) {
 const Terminals& Terminals::operator=(const Terminals &other) {
     this->terminals = other.terminals;
     return (*this);
+}
+
+void Terminals::Trim(int length) {
+    if (length < this->terminals.size()) {
+        this->terminals.resize(length);
+    }
 }
 
 std::ostream& operator << (std::ostream& out, const Terminals& to_print) {

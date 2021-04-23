@@ -25,6 +25,7 @@ public:
 
     bool Accepted(const std::string& input);
     bool IsLLk() const;
+    const int GetK() const { return K; }
 };
 
 

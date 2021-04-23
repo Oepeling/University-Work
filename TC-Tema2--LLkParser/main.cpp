@@ -54,7 +54,7 @@ int main() {
 
         bool is_llk = parser.IsLLk();
         if (is_llk) {
-            std::cout << "Gramatica este LL(k)\n";
+            std::cout << "Gramatica este LL(" << parser.GetK() << ")\n";
             startTesting(parser);
         } else {
             std::cout << "Gramatica nu este LL(k)\n";

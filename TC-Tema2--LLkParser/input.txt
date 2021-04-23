@@ -1,4 +1,14 @@
-4
+3
+S
+6
+S -> aSB
+S -> aAc
+A -> bAc
+A -> $
+B -> cSc
+B -> b
+
+1
 S
 5
 S -> A
@@ -6,3 +16,7 @@ A -> BC
 B -> a
 C -> b
 C -> $
+
+
+
+S -> aAc

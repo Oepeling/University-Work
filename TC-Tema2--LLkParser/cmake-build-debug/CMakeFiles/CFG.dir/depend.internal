@@ -43,6 +43,7 @@ CMakeFiles/CFG.dir/LLParser/LLkParser.cpp.o
  /Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/TerminalsSet.h
  /Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/LLParser/LLkParser.cpp
  /Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/LLParser/LLkParser.h
+ /Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Utility/VectorUtility.h
 CMakeFiles/CFG.dir/main.cpp.o
  /Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/CNF/CNF_Converter.h
  /Users/livia/Documents/Facultate/University-Work/TC-Tema2--LLkParser/Core/CFG_Engine.h

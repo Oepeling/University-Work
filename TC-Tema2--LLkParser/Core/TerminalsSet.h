@@ -27,6 +27,8 @@ public:
     const GrammarSymbol Front() const { return terminals.front(); }
     void PopFront() { terminals.erase(terminals.begin()); }
     Terminals Prefix (int length);
+    void Trim(int length);
+    std::vector<GrammarSymbol> AsVector() { return terminals; }
 };
 
 class TerminalsSet {
@@ -37,11 +39,11 @@ public:
     const TerminalsSet& operator = (const TerminalsSet& other);
     const TerminalsSet operator + (const TerminalsSet& other) const;
     const TerminalsSet operator - (const TerminalsSet& other) const;
-    const TerminalsSet operator * (const TerminalsSet& other) const;
+    TerminalsSet operator * (const TerminalsSet& other) const;
     const TerminalsSet& operator += (const TerminalsSet& other);
     bool Contains (const Terminals& item) const;
     const std::set<Terminals>& GetTerminalsSet() const { return terminalsSet; }
-    void Trim(const int length);
+    const TerminalsSet Trim(const int length);
 
     TerminalsSet() : terminalsSet() {};
     explicit TerminalsSet(const std::set<Terminals>& content) : terminalsSet(content) {}
