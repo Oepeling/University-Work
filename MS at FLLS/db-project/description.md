@@ -1,6 +1,6 @@
 # DuoAlgo — Database
 
-Link to this [project](https://github.com/Oepeling/University-Work/tree/master/MS%20at%20FLLS/db-project).
+Link la acest [proiect](https://github.com/Oepeling/University-Work/tree/master/MS%20at%20FLLS/db-project).
 
 ## 1. Prezentarea bazei de date
 
